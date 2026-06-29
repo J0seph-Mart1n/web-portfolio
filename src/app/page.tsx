@@ -29,11 +29,11 @@ export default function Home() {
               </h2>
             </ParallaxLayer>
 
-            <ParallaxLayer offset={1} speed={1} factor={1} style={
-              { backgroundImage: 'linear-gradient(to bottom, transparent 0%, #805E73 10%, #805E73 20%, #805E73 30%, #805E73 40%, #805E73 50%, #805E73 60%, #805E73 70%, #805E73 80%, #805E73 90%, transparent 100%)' }
-            } />
             <ParallaxLayer offset={2} speed={1} factor={1} style={
-              { backgroundImage: 'linear-gradient(to bottom, transparent 0%, #87BCDE 10%, #87BCDE 20%, #87BCDE 30%, #87BCDE 40%, #87BCDE 50%, #87BCDE 60%, #87BCDE 70%, #87BCDE 80%, #87BCDE 90%, transparent 100%)' }
+              { backgroundColor: '#805E73' }
+            } />
+            <ParallaxLayer offset={1} speed={1} factor={1.5} style={
+              { backgroundColor: '#87BCDE' }
             } />
 
             <ParallaxLayer
@@ -46,8 +46,32 @@ export default function Home() {
               }}
             />
 
-            <ParallaxLayer offset={1.3} speed={-0.3} style={{ pointerEvents: 'none' }}>
+            <ParallaxLayer offset={0.5} speed={-0.2} style={{ pointerEvents: 'none' }}>
               <img src={url('satellite4')} style={{ width: '15%', marginLeft: '70%' }} />
+            </ParallaxLayer>
+
+            <ParallaxLayer offset={0.25} speed={-0.1}>
+              <img src={"https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWg5YnNqM2NkODlwemdpMTNic2piN2tza2NsNTJraGl2c2w4MnlpbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/w2Ic2kFYV5oP7ukfuR/giphy.gif"}
+                        style={{ width: "320px", height: "350px", marginLeft: '50%' }}
+              >
+              </img>
+            </ParallaxLayer>
+
+            <ParallaxLayer offset={1.2} speed={0.8} style={{ opacity: 0.1 }}>
+              <img src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '55%' }} />
+              <img src={url('cloud')} style={{ display: 'block', width: '10%', marginLeft: '15%' }} />
+            </ParallaxLayer>
+
+            <ParallaxLayer offset={1.6} speed={0.8} style={{ opacity: 0.1 }}>
+              <img src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '35%' }} />
+            </ParallaxLayer>
+
+            <ParallaxLayer offset={1.6} speed={1.5} style={{ opacity: 1 }}>
+              <img src="/images/plane.png" style={{ display: 'block', width: '20%', marginLeft: '35%', rotate: '-20deg' }} />
+            </ParallaxLayer>
+
+            <ParallaxLayer offset={1.3} speed={2} style={{ opacity: 1 }}>
+              <img src="/images/sun.png" style={{ display: 'block', width: '10%', marginLeft: '80%' }} />
             </ParallaxLayer>
 
         </Parallax>
