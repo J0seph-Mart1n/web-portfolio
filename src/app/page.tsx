@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 import { useSpring, animated } from '@react-spring/web'
-import './styles.css'
 import { TypingAnimation } from "@/components/ui/typing-animation"
 
 const url = (name: string, wrap = false) =>
