@@ -1,0 +1,12 @@
+.moving-plane{
+    position: absolute;
+    left: 0;
+    animation: moveRight linear forwards;
+    animation-timeline: scroll();
+}
+
+@keyframes moveRight {
+  to {
+    left: 80vw; /* Moves the image across the screen */
+  }
+}
