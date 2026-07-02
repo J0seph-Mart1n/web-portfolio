@@ -3,6 +3,8 @@ import React, { useRef, useEffect } from 'react'
 import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
 import { useSpring, animated } from '@react-spring/web'
 import { TypingAnimation } from "@/components/ui/typing-animation"
+import { TextAnimate } from "@/components/ui/text-animate"
+import { BlurFade } from '@/components/ui/blur-fade'
 
 const url = (name: string, wrap = false) =>
   `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
@@ -46,18 +48,31 @@ export default function Home() {
                 flexDirection: 'column',
               }}
             >
-              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, paddingTop: '250px', fontWeight: 700, letterSpacing: '-0.05em' }}>
-                Hi, 
+              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, paddingTop: '250px', fontWeight: 700, letterSpacing: '-0.05em', display: 'flex'}}>
+                <TextAnimate animation="blurInUp" by="character">
+                  Hi,
+                </TextAnimate>
+                <BlurFade delay={0.1} inView>
+                    <img src="/images/512.gif" width="100px" height="100px" style={{ marginLeft: '10px',marginTop: '25px'}}/>
+                </BlurFade>
+                
               </h1>
-              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, marginTop: 0, fontWeight: 700, letterSpacing: '-0.05em' }}>I'm Joseph Martin</h1>
-              <h2 style={{ fontSize: '2.5rem', color: '#87BCDE', marginLeft: 30, fontWeight: 300 }}>
-                <TypingAnimation
-                    words={["Software Engineer", "Full Stack Developer", "Automation Tester"]}
-                    cursorStyle="block"
-                    loop
-                    className="text-4xl font-bold"
-                />
-              </h2>
+              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, marginTop: -20, fontWeight: 700, letterSpacing: '-0.05em' }}>
+                <TextAnimate animation='blurInUp' by="character" delay={0.2}>
+                  I'm Joseph Martin
+                </TextAnimate>
+              </h1>
+              <BlurFade delay={0.3} inView>
+                <h2 style={{ fontSize: '2.5rem', color: '#87BCDE', marginLeft: 30, fontWeight: 300, display: "flex" }}>
+                    <img src="/images/terminal.png" style={{ width: "60px", height: "50px", paddingRight: "10px" }}/>
+                    <TypingAnimation
+                        words={["Software Engineer", "Full Stack Developer", "Automation Tester"]}
+                        cursorStyle="block"
+                        loop
+                        className="text-4xl font-bold"
+                    />
+                </h2>
+              </BlurFade>
             </ParallaxLayer>
 
             <ParallaxLayer offset={3} speed={1} factor={1} style={
@@ -98,7 +113,45 @@ export default function Home() {
             </ParallaxLayer>
 
             <ParallaxLayer offset={1.99} speed={2} style={{ opacity: 1, pointerEvents: 'none' }}>
-              <animated.img src="/images/plane.png" style={{ display: 'block', width: '20vw', rotate: '-20deg', marginTop: '10vh', x: spring.x }} />
+              <animated.div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                width: 'max-content', 
+                marginTop: '10vh', 
+                x: spring.x,
+                rotate: '-5deg'
+              }}>
+                {/* The Trailing Banner */}
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  padding: '1.5rem 2rem',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+                  color: '#253237',
+                  border: '3px solid #87BCDE',
+                  position: 'relative',
+                  zIndex: 2
+                }}>
+                  <div style={{ marginTop: '0.8rem', fontSize: '1.1vw', lineHeight: '1.5' }}>
+                    <div><strong>Experience:</strong> Software Engineer, Automation Tester</div>
+                    <div><strong>Skills:</strong> React, Next.js, Node.js, TypeScript, Tailwind</div>
+                  </div>
+                </div>
+
+                {/* The Ropes */}
+                <svg viewBox="0 0 100 100" style={{ width: '8vw', height: '8vw', marginLeft: '-0.5vw', marginRight: '-4vw', zIndex: 1, overflow: 'visible' }}>
+                  {/* Top rope */}
+                  <path d="M 0 20 Q 50 40 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
+                  {/* Bottom rope */}
+                  <path d="M 0 80 Q 50 60 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
+                </svg>
+                
+                {/* The Plane */}
+                <img 
+                  src="/images/plane.png" 
+                  style={{ display: 'block', width: '20vw', zIndex: 10, position: 'relative' }} 
+                />
+              </animated.div>
             </ParallaxLayer>
 
             <ParallaxLayer offset={1.3} speed={1} style={{ opacity: 1 }}>
