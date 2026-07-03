@@ -5,13 +5,21 @@ import { useSpring, animated } from '@react-spring/web'
 import { TypingAnimation } from "@/components/ui/typing-animation"
 import { TextAnimate } from "@/components/ui/text-animate"
 import { BlurFade } from '@/components/ui/blur-fade'
+import { spring } from 'motion'
 
 const url = (name: string, wrap = false) =>
   `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 
 export default function Home() {
   const parallax = useRef<IParallax>(null!)
-  const [spring, api] = useSpring(() => ({ x: 0 })) // start off-screen initially
+  const [springs, api] = useSpring(() => ({ 
+    sharedX: -500, 
+    planeOffset: 0, 
+    bannerScale: 1, 
+    ropeOpacity: 1 ,
+    widthBannerScale: 35,
+    heightBannerScale: 15,
+  }))
 
   useEffect(() => {
     if (!parallax.current || !parallax.current.container.current) return
@@ -22,13 +30,50 @@ export default function Home() {
       const H = container.clientHeight
       const W = container.clientWidth
       
-      // Calculate progress (divide by a smaller number like 0.5 * H to make it fly faster)
-      const progress = (scroll - H) / (0.5 * H)
+      // Calculate progress from 0 to 1
+      const progress = Math.max(0, Math.min(1, (scroll - H) / (0.5 * H)))
       
-      // Map progress to horizontal position in pixels: from -20% of width to 120% of width
-      const x = (progress * (W * 1.4)) - (W * 0.2)
+      // Normal flight path if they never detached
+      // Changed to start much further left (-0.8 * W) so the long banner starts fully hidden
+      // Distance is increased to (2.6 * W) so it still hits the center perfectly at progress = 0.5
+      // (Added your -270 offset here so it doesn't suddenly jump when detaching!)
+      const normalX = (progress * (W * 2.6)) - (W * 0.8) - 270
       
-      api.start({ x })
+      let sharedX = normalX
+      let planeOffset = 0
+      let bannerScale = 1
+      let ropeOpacity = 1
+      let widthBannerScale = 35
+      let heightBannerScale = 15
+      
+      if (progress > 0.5) {
+        // 1. Banner reaches center and stops moving horizontally
+        sharedX = (0.5 * (W * 2.6)) - (W * 0.8) - 270
+        
+        // Calculate secondary progress (0 to 1) for the second half of the scroll
+        const detachProgress = (progress - 0.5) * 2
+        
+        // 2. Banner scales up (zooms in) to 1.5x
+        bannerScale = 1 + (detachProgress * 1.5)
+
+        // Smoothly expand the width (35vw to 75vw) and height (15vh to 85vh)
+        const addedWidthVw = detachProgress * 40
+        widthBannerScale = 35 + addedWidthVw
+        heightBannerScale = 15 + (detachProgress * 70)
+        
+        // Because the banner grows to the right inside the flex container, we must shift 
+        // the entire container left by half the width increase so it visually expands from its center!
+        const addedWidthPx = addedWidthVw * (W / 100)
+        sharedX -= (addedWidthPx / 2) +45
+        
+        // 3. Rope fades out quickly to simulate detaching
+        ropeOpacity = Math.max(0, 1 - (detachProgress * 5))
+        
+        // 4. Plane continues flying off the screen independently
+        planeOffset = (normalX - sharedX) * 1.5
+      }
+      
+      api.start({ sharedX, planeOffset, bannerScale, ropeOpacity, widthBannerScale, heightBannerScale })
     }
 
     container.addEventListener('scroll', handleScroll)
@@ -112,17 +157,16 @@ export default function Home() {
               <img src={url('cloud')} style={{ display: 'block', width: '20%', marginLeft: '35%' }} />
             </ParallaxLayer>
 
-            <ParallaxLayer offset={1.99} speed={2} style={{ opacity: 1, pointerEvents: 'none' }}>
+            <ParallaxLayer sticky={{start: 1.2, end:3}}  speed={0.2} style={{ opacity: 1, pointerEvents: 'none', display: 'flex' }}>
               <animated.div style={{ 
                 display: 'flex', 
-                alignItems: 'center', 
+                alignItems: 'center',  
                 width: 'max-content', 
-                marginTop: '10vh', 
-                x: spring.x,
+                x: springs.sharedX,
                 rotate: '-5deg'
               }}>
                 {/* The Trailing Banner */}
-                <div style={{
+                <animated.div style={{
                   background: 'rgba(255, 255, 255, 0.95)',
                   padding: '1.5rem 2rem',
                   borderRadius: '12px',
@@ -130,34 +174,52 @@ export default function Home() {
                   color: '#253237',
                   border: '3px solid #87BCDE',
                   position: 'relative',
-                  zIndex: 2
+                  zIndex: 2,
+                  rotate: '4.5deg',
+                  marginBottom: '50px',
+                  width: springs.widthBannerScale.to(w => `${w}vw`),
+                  height: springs.heightBannerScale.to(h => `${h}vh`),
                 }}>
                   <div style={{ marginTop: '0.8rem', fontSize: '1.1vw', lineHeight: '1.5' }}>
                     <div><strong>Experience:</strong> Software Engineer, Automation Tester</div>
                     <div><strong>Skills:</strong> React, Next.js, Node.js, TypeScript, Tailwind</div>
                   </div>
-                </div>
+                </animated.div>
 
                 {/* The Ropes */}
-                <svg viewBox="0 0 100 100" style={{ width: '8vw', height: '8vw', marginLeft: '-0.5vw', marginRight: '-4vw', zIndex: 1, overflow: 'visible' }}>
+                <animated.svg viewBox="0 0 100 100" style={{ 
+                  width: '8vw', 
+                  height: '8vw', 
+                  marginLeft: '-0.5vw', 
+                  marginRight: '-4vw', 
+                  zIndex: 1, 
+                  overflow: 'visible',
+                  opacity: springs.ropeOpacity 
+                }}>
                   {/* Top rope */}
                   <path d="M 0 20 Q 50 40 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
                   {/* Bottom rope */}
                   <path d="M 0 80 Q 50 60 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
-                </svg>
+                </animated.svg>
                 
                 {/* The Plane */}
-                <img 
+                <animated.img 
                   src="/images/plane.png" 
-                  style={{ display: 'block', width: '20vw', zIndex: 10, position: 'relative' }} 
+                  style={{ 
+                    display: 'block', 
+                    width: '20vw', 
+                    zIndex: 10, 
+                    position: 'relative',
+                    x: springs.planeOffset 
+                  }} 
                 />
               </animated.div>
             </ParallaxLayer>
 
-            <ParallaxLayer offset={1.3} speed={1} style={{ opacity: 1 }}>
+            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px'}}>
               <img src="/images/sun.png" style={ { display: 'block', width: '10%', marginLeft: '80%' }} />
             </ParallaxLayer>
-
+ 
         </Parallax>
     </div>
 
