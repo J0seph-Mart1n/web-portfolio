@@ -19,6 +19,10 @@ export default function Home() {
     ropeOpacity: 1 ,
     widthBannerScale: 35,
     heightBannerScale: 15,
+    exp1Opacity: 0,
+    exp2Opacity: 0,
+    exp3Opacity: 0,
+    timelineProgress: 0
   }))
 
   useEffect(() => {
@@ -43,8 +47,12 @@ export default function Home() {
       let planeOffset = 0
       let bannerScale = 1
       let ropeOpacity = 1
-      let widthBannerScale = 35
+      let widthBannerScale = 15
       let heightBannerScale = 15
+      let exp1Opacity = 0
+      let exp2Opacity = 0
+      let exp3Opacity = 0
+      let timelineProgress = 0
       
       if (progress > 0.5) {
         // 1. Banner reaches center and stops moving horizontally
@@ -73,7 +81,17 @@ export default function Home() {
         planeOffset = (normalX - sharedX) * 1.5
       }
       
-      api.start({ sharedX, planeOffset, bannerScale, ropeOpacity, widthBannerScale, heightBannerScale })
+      // 5. Fade in experience items sequentially as we continue scrolling past 1.5H
+      if (scroll > 1.5 * H) {
+        exp1Opacity = Math.max(0, Math.min(1, (scroll - 1.5 * H) / (0.15 * H)))
+        exp2Opacity = Math.max(0, Math.min(1, (scroll - 1.65 * H) / (0.15 * H)))
+        exp3Opacity = Math.max(0, Math.min(1, (scroll - 1.8 * H) / (0.15 * H)))
+        
+        // Timeline progress goes from 0 to 100 as the 3 items fade in
+        timelineProgress = Math.max(0, Math.min(100, ((scroll - 1.5 * H) / (0.45 * H)) * 100))
+      }
+      
+      api.start({ sharedX, planeOffset, bannerScale, ropeOpacity, widthBannerScale, heightBannerScale, exp1Opacity, exp2Opacity, exp3Opacity, timelineProgress })
     }
 
     container.addEventListener('scroll', handleScroll)
@@ -179,11 +197,163 @@ export default function Home() {
                   marginBottom: '50px',
                   width: springs.widthBannerScale.to(w => `${w}vw`),
                   height: springs.heightBannerScale.to(h => `${h}vh`),
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden'
                 }}>
-                  <div style={{ marginTop: '0.8rem', fontSize: '1.1vw', lineHeight: '1.5' }}>
-                    <div><strong>Experience:</strong> Software Engineer, Automation Tester</div>
-                    <div><strong>Skills:</strong> React, Next.js, Node.js, TypeScript, Tailwind</div>
-                  </div>
+                  
+                  {/* Experience Row */}
+                  <animated.div style={{ 
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    padding: '0.5rem',
+                    fontSize: springs.bannerScale.to(s => `${s * 0.9}vw`) 
+                  }}>
+                    <h3 style={{ borderBottom: '3px solid #87BCDE', paddingBottom: '0.2rem', marginBottom: '0.8rem', fontWeight: 800 }}>
+                      Experience
+                    </h3>
+                    <animated.div style={{ 
+                      width: '85%',
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.1rem',
+                      padding: '0.5rem 0',
+                      opacity: springs.bannerScale.to(s => Math.max(0, (s - 2.2) * 3.33)),
+                      maxHeight: springs.bannerScale.to(s => `${(s - 1) * 450}px`),
+                      overflow: 'hidden'
+                    }}>
+                      {/* Aceternity Style Timeline Line */}
+                      <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '80%', background: 'rgba(255,255,255,0.1)', zIndex: 0, borderRadius: '2px', overflow: 'hidden' }}>
+                         {/* The glowing gradient fill */}
+                         <animated.div style={{
+                            width: '100%',
+                            background: 'linear-gradient(to bottom, transparent, #87BCDE, #3E7C9D)',
+                            height: springs.timelineProgress.to(p => `${p}%`),
+                            boxShadow: '0 0 15px #87BCDE',
+                            borderRadius: '2px'
+                         }} />
+                      </div>
+
+                      {/* Box 1 (Left) */}
+                      <animated.div style={{ 
+                         opacity: springs.exp1Opacity, 
+                         transform: springs.exp1Opacity.to(o => `translateY(${(1 - o) * 20}px)`),
+                         width: '45%', 
+                         alignSelf: 'flex-start',
+                         background: '#253237', color: 'white', padding: '0.5rem 0.8rem', borderRadius: '12px', zIndex: 1, boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                         position: 'relative'
+                      }}>
+                         {/* The glowing dot on the timeline for Box 1 */}
+                         <animated.div style={{
+                            position: 'absolute', right: '-11.11%', top: '50%', transform: 'translateY(-50%) translateX(50%)',
+                            width: '10px', height: '10px', borderRadius: '50%', border: '2px solid #87BCDE',
+                            background: springs.exp1Opacity.to(o => o > 0.5 ? '#87BCDE' : '#253237'),
+                            boxShadow: springs.exp1Opacity.to(o => o > 0.5 ? '0 0 10px #87BCDE' : 'none'),
+                            transition: 'all 0.3s ease'
+                         }} />
+                         <div style={{ fontWeight: 800, color: '#87BCDE', fontSize: '0.85em' }}>Company A</div>
+                         <div style={{ fontWeight: 600, fontSize: '0.75em' }}>Software Engineer</div>
+                         <div style={{ fontSize: '0.65em', opacity: 0.8, marginTop: '2px' }}>Jan 2022 - Present</div>
+                      </animated.div>
+
+                      {/* Box 2 (Right) */}
+                      <animated.div style={{ 
+                         opacity: springs.exp2Opacity, 
+                         transform: springs.exp2Opacity.to(o => `translateY(${(1 - o) * 20}px)`),
+                         width: '45%', 
+                         alignSelf: 'flex-end',
+                         background: '#253237', color: 'white', padding: '0.5rem 0.8rem', borderRadius: '12px', zIndex: 1, boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                         position: 'relative'
+                      }}>
+                         {/* The glowing dot on the timeline for Box 2 */}
+                         <animated.div style={{
+                            position: 'absolute', left: '-11.11%', top: '50%', transform: 'translateY(-50%) translateX(-50%)',
+                            width: '10px', height: '10px', borderRadius: '50%', border: '2px solid #87BCDE',
+                            background: springs.exp2Opacity.to(o => o > 0.5 ? '#87BCDE' : '#253237'),
+                            boxShadow: springs.exp2Opacity.to(o => o > 0.5 ? '0 0 10px #87BCDE' : 'none'),
+                            transition: 'all 0.3s ease'
+                         }} />
+                         <div style={{ fontWeight: 800, color: '#87BCDE', fontSize: '0.85em' }}>Company B</div>
+                         <div style={{ fontWeight: 600, fontSize: '0.75em' }}>Automation Tester</div>
+                         <div style={{ fontSize: '0.65em', opacity: 0.8, marginTop: '2px' }}>Jun 2019 - Dec 2021</div>
+                      </animated.div>
+
+                      {/* Box 3 (Left) */}
+                      <animated.div style={{ 
+                         opacity: springs.exp3Opacity, 
+                         transform: springs.exp3Opacity.to(o => `translateY(${(1 - o) * 20}px)`),
+                         width: '45%', 
+                         alignSelf: 'flex-start',
+                         background: '#253237', color: 'white', padding: '0.5rem 0.8rem', borderRadius: '12px', zIndex: 1, boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                         position: 'relative'
+                      }}>
+                         {/* The glowing dot on the timeline for Box 3 */}
+                         <animated.div style={{
+                            position: 'absolute', right: '-11.11%', top: '50%', transform: 'translateY(-50%) translateX(50%)',
+                            width: '10px', height: '10px', borderRadius: '50%', border: '2px solid #87BCDE',
+                            background: springs.exp3Opacity.to(o => o > 0.5 ? '#87BCDE' : '#253237'),
+                            boxShadow: springs.exp3Opacity.to(o => o > 0.5 ? '0 0 10px #87BCDE' : 'none'),
+                            transition: 'all 0.3s ease'
+                         }} />
+                         <div style={{ fontWeight: 800, color: '#87BCDE', fontSize: '0.85em' }}>Company C</div>
+                         <div style={{ fontWeight: 600, fontSize: '0.75em' }}>Junior Developer</div>
+                         <div style={{ fontSize: '0.65em', opacity: 0.8, marginTop: '2px' }}>Jan 2018 - May 2019</div>
+                      </animated.div>
+
+                    </animated.div>
+                  </animated.div>
+
+                  {/* Horizontal Divider */}
+                  <animated.div style={{ 
+                    width: '80%', 
+                    background: '#87BCDE', 
+                    margin: springs.bannerScale.to(s => `${(s - 1) * 0.1}rem 0`), // Reduced multiplier here to shrink spacing!
+                    maxHeight: springs.bannerScale.to(s => `${(s - 1) * 2}px`),
+                    height: '2px',
+                    opacity: springs.bannerScale.to(s => Math.max(0, (s - 2.2) * 3.33)) // Fades in only at the very end of the zoom
+                  }} />
+
+                  {/* Skills Row */}
+                  <animated.div style={{ 
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    padding: '0.5rem',
+                    fontSize: springs.bannerScale.to(s => `${s * 0.9}vw`) 
+                  }}>
+                    <h3 style={{ borderBottom: '3px solid #87BCDE', paddingBottom: '0.2rem', marginBottom: '0.8rem', fontWeight: 800 }}>
+                      Skills
+                    </h3>
+                    <animated.div style={{ 
+                      display: 'flex', 
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                      gap: '1rem',
+                      opacity: springs.bannerScale.to(s => Math.max(0, (s - 2.2) * 3.33)),
+                      maxHeight: springs.bannerScale.to(s => `${(s - 1) * 500}px`),
+                      overflow: 'hidden'
+                    }}>
+                      {['React', 'Next.js', 'Node.js', 'TypeScript', 'Tailwind'].map(skill => (
+                        <span key={skill} style={{ 
+                          background: '#253237', 
+                          color: 'white', 
+                          padding: '0.4rem 1rem', 
+                          borderRadius: '20px', 
+                          fontSize: '0.85em',
+                          fontWeight: 600
+                        }}>
+                          {skill}
+                        </span>
+                      ))}
+                    </animated.div>
+                  </animated.div>
+
                 </animated.div>
 
                 {/* The Ropes */}
