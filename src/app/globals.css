@@ -137,3 +137,91 @@
     @apply font-sans;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   ALTITUDE LAYER ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+
+/* Twinkling stars for Space layer */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+
+@keyframes twinkle-slow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.7; }
+}
+
+/* Shooting star streak */
+@keyframes shoot {
+  0% { transform: translateX(0) translateY(0); opacity: 1; width: 0; }
+  30% { opacity: 1; width: 80px; }
+  100% { transform: translateX(300px) translateY(150px); opacity: 0; width: 0; }
+}
+
+/* Gentle floating for clouds */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-8px) translateX(15px); }
+}
+
+/* Underground crystal pulse */
+@keyframes crystal-pulse {
+  0%, 100% { opacity: 0.3; box-shadow: 0 0 8px 2px currentColor; }
+  50% { opacity: 0.9; box-shadow: 0 0 20px 6px currentColor; }
+}
+
+@keyframes magma-glow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.4; }
+}
+
+/* Star field container */
+.star-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.star-field .star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+}
+
+/* Shooting star */
+.shooting-star {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,255,255,0));
+  border-radius: 999px;
+  animation: shoot 3s ease-in-out infinite;
+}
+
+/* Cloud float classes */
+.cloud-float {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+.cloud-float-slow {
+  animation: float-slow 10s ease-in-out infinite;
+}
+
+/* Crystal glow dots for underground */
+.crystal-dot {
+  position: absolute;
+  border-radius: 50%;
+  animation: crystal-pulse 3s ease-in-out infinite;
+}
+
+/* Magma vein glow */
+.magma-vein {
+  animation: magma-glow 4s ease-in-out infinite;
+}
