@@ -11,6 +11,7 @@ import { StarField } from "@/components/StarField"
 import { MountainSilhouette } from "@/components/MountainSilhouette"
 import { UndergroundCrystals } from "@/components/UndergroundCrystals"
 import { ProjectsSection } from "@/components/ProjectsSection"
+import { SocialLinksSection } from "@/components/SocialLinksSection"
 import { spring } from 'motion'
 
 const url = (name: string, wrap = false) =>
@@ -368,6 +369,20 @@ export default function Home() {
               <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                 <UndergroundCrystals />
               </div>
+            </ParallaxLayer>
+
+            {/* Social Links Section */}
+            <ParallaxLayer
+              offset={4.5}
+              speed={0.2}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column'
+              }}
+            >
+              <SocialLinksSection />
             </ParallaxLayer>
 
             {/* Soil cross-section lines */}
