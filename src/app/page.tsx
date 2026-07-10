@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <div style={{ width: '100%', height: '100%', background: '#050510' }}>
-        <Parallax ref={parallax} pages={5}>
+        <Parallax ref={parallax} pages={5.5}>
 
             {/* ═══════════════════════════════════════════════════
                 LAYER 0: SPACE — Deep space background
@@ -139,6 +139,54 @@ export default function Home() {
               <StarField />
             </ParallaxLayer>
 
+            {/* Massive Space Station */}
+            <ParallaxLayer offset={0.05} speed={0.4} style={{ pointerEvents: 'none', display: 'flex', justifyContent: 'flex-end', zIndex: 10 }}>
+              <div className="spaceship-enter" style={{ marginRight: '5%', marginTop: '5%', width: '60vw', rotate:'50deg' }}>
+                <div 
+                  className="cloud-float-slow"
+                  style={{ opacity: 1 }}
+                >
+                  <svg viewBox="0 0 400 200" style={{ filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.8))' }}>
+                  {/* Left Solar Panel */}
+                  <rect x="20" y="70" width="100" height="60" fill="#2980b9" stroke="#1c5980" strokeWidth="4" />
+                  <line x1="45" y1="70" x2="45" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="70" y1="70" x2="70" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="95" y1="70" x2="95" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="20" y1="100" x2="120" y2="100" stroke="#1c5980" strokeWidth="2" />
+                  
+                  {/* Right Solar Panel */}
+                  <rect x="280" y="70" width="100" height="60" fill="#2980b9" stroke="#1c5980" strokeWidth="4" />
+                  <line x1="305" y1="70" x2="305" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="330" y1="70" x2="330" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="355" y1="70" x2="355" y2="130" stroke="#1c5980" strokeWidth="2" />
+                  <line x1="280" y1="100" x2="380" y2="100" stroke="#1c5980" strokeWidth="2" />
+                  
+                  {/* Truss Connectors */}
+                  <rect x="120" y="92" width="40" height="16" fill="#7f8c8d" />
+                  <rect x="240" y="92" width="40" height="16" fill="#7f8c8d" />
+                  
+                  {/* Central Hub Core */}
+                  <rect x="160" y="40" width="80" height="120" rx="15" fill="#ecf0f1" stroke="#bdc3c7" strokeWidth="4" />
+                  
+                  {/* Hub Windows */}
+                  <rect x="170" y="60" width="60" height="15" rx="4" fill="#34495e" />
+                  <rect x="170" y="90" width="60" height="15" rx="4" fill="#34495e" />
+                  <rect x="170" y="120" width="60" height="15" rx="4" fill="#34495e" />
+                  
+                  {/* Top Antenna/Dish */}
+                  <line x1="200" y1="40" x2="200" y2="10" stroke="#95a5a6" strokeWidth="4" />
+                  <path d="M 175 10 Q 200 -15 225 10 Z" fill="#95a5a6" />
+                  <circle cx="200" cy="5" r="4" fill="#e74c3c" className="magma-vein" />
+                  
+                  {/* Bottom Module */}
+                  <rect x="175" y="160" width="50" height="30" rx="5" fill="#95a5a6" />
+                  <circle cx="200" cy="175" r="8" fill="#e67e22" />
+                  <rect x="190" y="190" width="20" height="10" fill="#7f8c8d" />
+                </svg>
+              </div>
+            </div>
+          </ParallaxLayer>
+
             {/* Nebula glow behind hero */}
             <ParallaxLayer offset={0} speed={0.1} style={{ pointerEvents: 'none' }}>
               <div style={{
@@ -163,15 +211,11 @@ export default function Home() {
               }} />
             </ParallaxLayer>
 
-            {/* Satellite (kept exactly) */}
-            <ParallaxLayer offset={0.5} speed={-0.2} style={{ pointerEvents: 'none' }}>
-              <img src={url('satellite4')} style={{ width: '15%', marginLeft: '70%' }} />
-            </ParallaxLayer>
 
             {/* Astronaut GIF (kept exactly) */}
-            <ParallaxLayer offset={0.25} speed={-0.1}>
+            <ParallaxLayer offset={0.60} speed={0.5}>
               <img src={"https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWg5YnNqM2NkODlwemdpMTNic2piN2tza2NsNTJraGl2c2w4MnlpbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/w2Ic2kFYV5oP7ukfuR/giphy.gif"}
-                      style={{ width: "320px", height: "350px", marginLeft: '50%' }}
+                      style={{ width: "220px", height: "250px", marginLeft: '40%', rotate:'20deg' }}
               >
               </img>
             </ParallaxLayer>
@@ -278,6 +322,7 @@ export default function Home() {
             {/* Projects section on land */}
             <ParallaxLayer
               offset={3}
+              sticky={{start: 3, end:3.5}}
               speed={0.2}
               style={{
                 display: 'flex',
@@ -295,7 +340,7 @@ export default function Home() {
 
             {/* Underground gradient background */}
             <ParallaxLayer
-              offset={4}
+              offset={4.5}
               speed={0}
               factor={1}
               style={{
@@ -304,7 +349,7 @@ export default function Home() {
             />
 
             {/* Rock texture overlay */}
-            <ParallaxLayer offset={4} speed={0.1} style={{ pointerEvents: 'none', opacity: 0.08 }}>
+            <ParallaxLayer offset={4.5} speed={0.1} style={{ pointerEvents: 'none', opacity: 0.08 }}>
               <div style={{
                 width: '100%',
                 height: '100%',
@@ -319,14 +364,14 @@ export default function Home() {
             </ParallaxLayer>
 
             {/* Glowing crystals and magma veins */}
-            <ParallaxLayer offset={4} speed={0.15} style={{ pointerEvents: 'none' }}>
+            <ParallaxLayer offset={4.5} speed={0.15} style={{ pointerEvents: 'none' }}>
               <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                 <UndergroundCrystals />
               </div>
             </ParallaxLayer>
 
             {/* Soil cross-section lines */}
-            <ParallaxLayer offset={4} speed={0.05} style={{ pointerEvents: 'none', opacity: 0.12 }}>
+            <ParallaxLayer offset={4.5} speed={0.05} style={{ pointerEvents: 'none', opacity: 0.12 }}>
               <svg style={{ width: '100%', height: '100%' }}>
                 {/* Horizontal sediment layers */}
                 <line x1="0" y1="15%" x2="100%" y2="17%" stroke="#8B7355" strokeWidth="1" />
@@ -340,6 +385,20 @@ export default function Home() {
             {/* ═══════════════════════════════════════════════════
                 CONTENT LAYERS (preserved exactly as before)
                ═══════════════════════════════════════════════════ */}
+
+            {/* Sun (sticky in sky) — CSS Glow Ball */}
+            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px'}}>
+              <div 
+                style={{ 
+                  width: '120px', 
+                  height: '120px', 
+                  marginLeft: '85%',
+                  borderRadius: '50%',
+                  background: '#ffde59',
+                  boxShadow: '0 0 40px 15px rgba(255, 222, 89, 0.5), 0 0 80px 30px rgba(255, 222, 89, 0.2)'
+                }} 
+              />
+            </ParallaxLayer>
 
             {/* Plane + Banner + Rope (sticky in sky) — KEPT EXACTLY */}
             <ParallaxLayer sticky={{start: 1.2, end:2}}  speed={0.2} style={{ opacity: 1, pointerEvents: 'none', display: 'flex' }}>
@@ -435,11 +494,6 @@ export default function Home() {
                   }} 
                 />
               </animated.div>
-            </ParallaxLayer>
-
-            {/* Sun (sticky in sky) — KEPT EXACTLY */}
-            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px'}}>
-              <img src="/images/sun.png" style={ { display: 'block', width: '10%', marginLeft: '80%' }} />
             </ParallaxLayer>
  
         </Parallax>

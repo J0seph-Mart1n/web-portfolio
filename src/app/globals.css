@@ -225,3 +225,13 @@
 .magma-vein {
   animation: magma-glow 4s ease-in-out infinite;
 }
+
+/* Spaceship fly-in from top right */
+@keyframes spaceship-fly-in {
+  0% { transform: translate(100vw, -100vh); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+.spaceship-enter {
+  animation: spaceship-fly-in 3s ease-out forwards;
+}
