@@ -1,30 +1,32 @@
 import React from 'react';
 import { ExternalLink, FolderGit2 } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
+import { motion } from 'motion/react';
+import { BlurFade } from './ui/blur-fade';
 
 export function ProjectsSection() {
   const projects = [
     {
-      title: 'Portfolio Website',
-      description: 'A highly interactive, layered parallax portfolio built with Next.js and React Spring. Features deep space, dynamic landscapes, and underground magma layers.',
-      tech: ['Next.js', 'React Spring', 'Tailwind CSS', 'Framer Motion'],
-      color: '#87BCDE',
-      github: '#',
+      title: 'Persona.ai',
+      description: 'An offline, AI-powered desktop application that builds and visualizes a personalized psychological knowledge graph from user interactions using local LLMs and Neo4j.',
+      tech: ['Next.js', 'Electron', 'Neo4j', 'Ollama', 'Tailwind'],
+      color: '#ff2a85',
+      github: 'https://github.com/J0seph-Mart1n/PersonaLocalApp',
       live: '#',
     },
     {
-      title: 'Project Alpha',
-      description: 'Full-stack web application with real-time data processing, complex state management, and an integrated CI/CD deployment pipeline.',
-      tech: ['React', 'Node.js', 'MongoDB', 'WebSockets'],
-      color: '#5a9e5b',
-      github: '#',
+      title: 'Auction Manager',
+      description: 'A full-stack web application featuring a Vue 3 frontend for real-time auction tracking and a Node.js/PostgreSQL backend for secure item cataloging and sales management.',
+      tech: ['Vue 3', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL', 'Prisma'],
+      color: '#9d4edd',
+      github: 'https://github.com/J0seph-Mart1n/AuctionManager',
       live: '#',
     },
     {
-      title: 'Project Beta',
-      description: 'Automated testing framework providing robust end-to-end testing with seamless Docker containerization and comprehensive reporting.',
-      tech: ['TypeScript', 'Jest', 'Docker', 'GitHub Actions'],
-      color: '#f7c948',
+      title: 'Vitality',
+      description: 'An AI-powered health and nutrition tracker featuring a React Native frontend for scanning food labels and a Go/MongoDB backend utilizing Groq\'s Llama 4 for real-time nutritional analysis.',
+      tech: ['React Native', 'Expo', 'Go', 'MongoDB', 'Firebase', 'LLaMA'],
+      color: '#ffaa00',
       github: '#',
       live: '#',
     },
@@ -33,18 +35,21 @@ export function ProjectsSection() {
   return (
     <div className="w-full px-4 md:px-8 py-2 flex flex-col items-center z-10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2 drop-shadow-lg inline-block border-b-2 pb-1" style={{ borderColor: '#5a9e5b' }}>
-          Featured Projects
-        </h2>
-        <p className="text-gray-400 max-w-xl mx-auto mt-2 text-sm">
-          A showcase of my recent work, highlighting full-stack development, creative coding, and modern web architectures.
-        </p>
+        <BlurFade delay={0.3} inView>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2 drop-shadow-lg inline-block border-b-2 pb-1" style={{ borderColor: '#5a9e5b' }}>
+            Projects
+          </h2>
+        </BlurFade>
       </div>
 
       <div className="w-full max-w-5xl flex flex-col gap-6">
         {projects.map((project, index) => (
-          <div
+          <motion.div
             key={project.title}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
             className={`flex flex-col gap-4 md:gap-8 items-center ${
               index % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
@@ -77,7 +82,7 @@ export function ProjectsSection() {
                 <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.5)' }}>
                   {project.title}
                 </h3>
-                <p className="text-gray-300 text-xs leading-relaxed">
+                <p className="text-gray-100 text-sm font-medium leading-relaxed drop-shadow-md">
                   {project.description}
                 </p>
               </div>
@@ -131,7 +136,7 @@ export function ProjectsSection() {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
