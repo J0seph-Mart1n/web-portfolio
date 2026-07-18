@@ -36,13 +36,13 @@ export function ProjectsSection() {
     <div className="w-full px-4 md:px-8 py-2 flex flex-col items-center z-10">
       <div className="text-center mb-6">
         <BlurFade delay={0.3} inView>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2 drop-shadow-lg inline-block border-b-2 pb-1" style={{ borderColor: '#5a9e5b' }}>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-10 drop-shadow-lg inline-block border-b-2 pb-2" style={{ borderColor: '#5a9e5b' }}>
             Projects
           </h2>
         </BlurFade>
       </div>
 
-      <div className="w-full max-w-5xl flex flex-col gap-6">
+      <div className="w-full max-w-4xl flex flex-col gap-4 md:gap-9">
         {projects.map((project, index) => (
           <motion.div
             key={project.title}
@@ -50,39 +50,41 @@ export function ProjectsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-50px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className={`flex flex-col gap-4 md:gap-8 items-center ${
+            className={`group/tile relative w-full flex flex-col gap-4 md:gap-8 items-center ${
               index % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
           >
+            {/* Absolute invisible tile background that expands outside the container without affecting height */}
+            <div className="absolute -inset-x-4 -inset-y-4 md:-inset-x-6 md:-inset-y-6 rounded-3xl transition-all duration-500 border border-transparent bg-transparent group-hover/tile:bg-black/30 group-hover/tile:backdrop-blur-md group-hover/tile:border-white/10 group-hover/tile:shadow-2xl -z-10" />
             {/* Image Side Placeholder */}
-            <div className="w-full md:w-[45%] group">
+            <div className="w-full md:w-[30%]">
               <div 
-                className="relative w-full h-32 md:h-40 rounded-xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-500 group-hover:scale-[1.02]"
+                className="relative w-full h-28 md:h-36 rounded-2xl overflow-hidden border border-white/10 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-500 group-hover/tile:scale-[1.03] group-hover/tile:shadow-xl"
                 style={{
                   boxShadow: `0 0 20px -10px ${project.color}33`,
                 }}
               >
                 {/* Glow Effect on Hover */}
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  className="absolute inset-0 opacity-0 group-hover/tile:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle at center, ${project.color}22 0%, transparent 70%)`
+                    background: `radial-gradient(circle at center, ${project.color}33 0%, transparent 70%)`
                   }}
                 />
-                <div className="flex flex-col items-center text-gray-500 gap-2 transition-transform duration-500 group-hover:-translate-y-1">
-                  <FolderGit2 size={32} style={{ color: project.color, opacity: 0.8 }} />
-                  <span className="text-xs font-medium tracking-widest uppercase opacity-60">Image</span>
+                <div className="flex flex-col items-center text-gray-500 gap-1.5 transition-transform duration-500 group-hover/tile:-translate-y-2">
+                  <FolderGit2 size={24} style={{ color: project.color, opacity: 0.8 }} />
+                  <span className="text-[10px] font-medium tracking-widest uppercase opacity-60">Image</span>
                 </div>
               </div>
             </div>
 
             {/* Content Side */}
-            <div className="w-full md:w-[55%] flex flex-col justify-center space-y-2">
+            <div className="w-full md:w-[70%] flex flex-col justify-center space-y-2">
               <div>
-                <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.5)' }}>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-1.5 transition-all duration-300 group-hover/tile:-translate-y-1" style={{ textShadow: '0 1px 5px rgba(0,0,0,0.5)' }}>
                   {project.title}
                 </h3>
-                <p className="text-gray-100 text-sm font-medium leading-relaxed drop-shadow-md">
+                <p className="text-gray-100 text-xs font-medium leading-relaxed drop-shadow-md">
                   {project.description}
                 </p>
               </div>
@@ -105,21 +107,21 @@ export function ProjectsSection() {
               </div>
 
               {/* Action Links */}
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-2 pt-1.5">
                 <a 
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium text-xs transition-all duration-300 border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md font-medium text-xs transition-all duration-300 border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white"
                 >
-                  <FaGithub size={14} />
+                  <FaGithub size={12} />
                   <span>Code</span>
                 </a>
                 <a 
                   href={`/projects/${project.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium text-xs transition-all duration-300 shadow-sm text-white"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md font-medium text-xs transition-all duration-300 shadow-sm text-white"
                   style={{
                     backgroundColor: `${project.color}cc`,
                     boxShadow: `0 2px 8px 0 ${project.color}4d`,
@@ -135,7 +137,7 @@ export function ProjectsSection() {
                     e.currentTarget.style.boxShadow = `0 2px 8px 0 ${project.color}4d`;
                   }}
                 >
-                  <BookOpen size={14} />
+                  <BookOpen size={12} />
                   <span>Case Study</span>
                 </a>
               </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Code2, Layers, Cpu } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { MountainSilhouette } from '@/components/MountainSilhouette';
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -47,18 +48,36 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   }
 
   return (
-    <main className="min-h-screen bg-[#050510] text-gray-200 font-sans selection:bg-white/20 pb-20">
-      {/* Background gradients */}
+    <main className="min-h-screen text-gray-200 font-sans selection:bg-white/20 pb-20 relative">
+      {/* Land Background matching Projects Section */}
       <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-20"
+        className="fixed inset-0 z-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 50% 0%, ${project.color} 0%, transparent 60%)`
+          background: 'linear-gradient(180deg, #87CEEB 0%, #a8d8ea 20%, #c9e8f0 35%, #e8f4f0 50%, #b8d4a8 60%, #7ab648 70%, #4a8c4b 80%, #3d6b3e 90%, #2d4a2e 100%)'
         }}
       />
       
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-12 md:py-20">
-        
-        {/* Navigation */}
+      {/* Background Objects matching Projects Section */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-80 flex items-end justify-center overflow-hidden">
+        <div className="w-full min-w-[1440px]">
+          <MountainSilhouette />
+        </div>
+      </div>
+      
+      <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
+        <div 
+          className="rounded-2xl border border-white/10 bg-black/60 backdrop-blur-md shadow-2xl p-6 md:p-12 relative overflow-hidden"
+          style={{ boxShadow: `0 0 40px -10px ${project.color}40` }}
+        >
+          {/* Subtle project color glow inside the card */}
+          <div 
+            className="absolute inset-0 z-0 pointer-events-none opacity-20"
+            style={{
+              background: `radial-gradient(circle at 50% 0%, ${project.color} 0%, transparent 60%)`
+            }}
+          />
+          <div className="relative z-10">
+            {/* Navigation */}
         <Link 
           href="/" 
           className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors mb-12 group"
@@ -180,6 +199,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </Link>
         </footer>
 
+          </div>
+        </div>
       </div>
     </main>
   );
