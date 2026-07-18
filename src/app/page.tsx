@@ -214,7 +214,7 @@ export default function Home() {
 
 
             {/* Astronaut GIF (kept exactly) */}
-            <ParallaxLayer offset={0.60} speed={0.5}>
+            <ParallaxLayer offset={0.60} speed={0.5} style={{ pointerEvents: 'none' }}>
               <img src={"https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWg5YnNqM2NkODlwemdpMTNic2piN2tza2NsNTJraGl2c2w4MnlpbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/w2Ic2kFYV5oP7ukfuR/giphy.gif"}
                       style={{ width: "220px", height: "250px", marginLeft: '40%', rotate:'20deg' }}
               >
@@ -402,7 +402,7 @@ export default function Home() {
                ═══════════════════════════════════════════════════ */}
 
             {/* Sun (sticky in sky) — CSS Glow Ball */}
-            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px'}}>
+            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px', pointerEvents: 'none'}}>
               <div 
                 style={{ 
                   width: '120px', 
