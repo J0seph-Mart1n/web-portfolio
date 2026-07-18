@@ -42,7 +42,8 @@ export function ExperienceTimeline({ springs }: { springs: any }) {
         width: '100%',
         position: 'relative',
         opacity: springs.bannerScale.to((s: number) => Math.max(0, (s - 2.2) * 3.33)),
-        // Remove maxHeight restriction so the Timeline component can render fully
+        maxHeight: springs.bannerScale.to((s: number) => `${(s - 1) * 2000}px`),
+        overflow: 'hidden'
       }}>
         <Timeline data={data} springs={springs} />
       </animated.div>

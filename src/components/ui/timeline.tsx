@@ -19,10 +19,14 @@ export const Timeline = ({ data, springs }: { data: TimelineEntry[], springs?: a
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
-    }
+    if (!ref.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setHeight(entry.contentRect.height);
+      }
+    });
+    resizeObserver.observe(ref.current);
+    return () => resizeObserver.disconnect();
   }, [ref]);
 
   const { scrollYProgress } = useScroll({
@@ -39,7 +43,18 @@ export const Timeline = ({ data, springs }: { data: TimelineEntry[], springs?: a
         {data.map((item, index) => {
           const isLeft = index % 2 === 0;
           return (
-            <div key={index} className="flex justify-center pt-2 md:pt-0 relative w-full">
+            <animated.div 
+              key={index} 
+              className="flex justify-center pt-2 md:pt-0 relative w-full"
+              style={{
+                opacity: springs ? (
+                  index === 0 ? springs.exp1Opacity :
+                  index === 1 ? springs.exp2Opacity :
+                  index === 2 ? springs.exp3Opacity :
+                  springs.timelineProgress.to((p: number) => Math.max(0, Math.min(1, (p - (index * 33)) / 15)))
+                ) : 1
+              }}
+            >
               {/* Left Side */}
               <div className={`w-[45%] flex ${isLeft ? 'justify-end pr-8 md:pr-12' : 'justify-end opacity-0'}`}>
                 {isLeft && (
@@ -70,7 +85,7 @@ export const Timeline = ({ data, springs }: { data: TimelineEntry[], springs?: a
                   </div>
                 )}
               </div>
-            </div>
+              </animated.div>
           );
         })}
         
