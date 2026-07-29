@@ -44,7 +44,7 @@ export function MountainSilhouette() {
       </defs>
 
       {/* ── Sky Background ── */}
-      <rect x="0" y="0" width="1440" height="500" fill="url(#skyGrad)" />
+      {/* Removed hard-coded sky rect so the parent ParallaxLayer gradient shows through seamlessly */}
 
       {/* Sun glow haze */}
       <rect x="0" y="0" width="1440" height="500" fill="url(#sunGlow)" />

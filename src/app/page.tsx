@@ -118,11 +118,14 @@ export default function Home() {
             <ParallaxLayer
               offset={0}
               speed={0}
-              factor={1.5}
+              factor={1}
               style={{
                 background: 'linear-gradient(180deg, #050510 0%, #0a0a2e 30%, #0d1137 60%, #141852 100%)',
               }}
-            />
+            >
+              {/* This bridges the subpixel rendering gap between the two pages without altering their size! */}
+              <div style={{ position: 'absolute', bottom: '-2px', left: 0, width: '100%', height: '4px', background: '#141852' }} />
+            </ParallaxLayer>
 
             {/* Original stars SVG (kept) */}
             <ParallaxLayer
@@ -272,7 +275,10 @@ export default function Home() {
               style={{
                 background: 'linear-gradient(180deg, #141852 0%, #1B2838 8%, #2a4a6b 20%, #5b8fb9 40%, #87CEEB 60%, #a8d8ea 80%, #c9e8f0 100%)',
               }}
-            />
+            >
+              {/* Bridge subpixel gap to land layer */}
+              <div style={{ position: 'absolute', bottom: '-2px', left: 0, width: '100%', height: '4px', background: '#c9e8f0' }} />
+            </ParallaxLayer>
 
             {/* Cloud layers — varying speeds for depth */}
             <ParallaxLayer offset={1.1} speed={0.4} style={{ opacity: 0.6, pointerEvents: 'none' }}>
@@ -307,9 +313,9 @@ export default function Home() {
             <ParallaxLayer
               offset={3}
               speed={0}
-              factor={1.5}
+              factor={1.3}
               style={{
-                background: 'linear-gradient(180deg, #87CEEB 0%, #a8d8ea 20%, #c9e8f0 35%, #e8f4f0 50%, #b8d4a8 60%, #7ab648 70%, #4a8c4b 80%, #3d6b3e 90%, #2d4a2e 100%)',
+                background: 'linear-gradient(180deg, #c9e8f0 0%, #d8eff2 20%, #e0f2f3 35%, #e8f4f0 50%, #b8d4a8 60%, #7ab648 70%, #4a8c4b 80%, #3d6b3e 90%, #2d4a2e 100%)',
               }}
             />
 
@@ -323,7 +329,7 @@ export default function Home() {
             {/* Projects section on land */}
             <ParallaxLayer
               offset={3}
-              sticky={{start: 3, end:3.5}}
+              sticky={{start: 3, end:3.3}}
               speed={0.2}
               style={{
                 display: 'flex',
@@ -341,13 +347,23 @@ export default function Home() {
 
             {/* Underground gradient background */}
             <ParallaxLayer
-              offset={4.5}
+              offset={4.3}
               speed={0}
-              factor={1}
+              factor={1.2}
               style={{
                 background: 'linear-gradient(180deg, #1e3320 0%, #3b2a1a 15%, #4a3728 30%, #3d2b1c 50%, #2d1810 70%, #1a0f08 90%, #0d0704 100%)',
               }}
-            />
+            >
+              {/* Natural boundary bushes/dirt transition */}
+              <div style={{ position: 'absolute', top: '-30px', left: 0, width: '100%', height: '60px', zIndex: 10 }}>
+                <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+                  {/* Darker bushes bridging into the land */}
+                  <path d="M0,60 L0,40 Q40,10 80,35 Q130,-5 180,30 Q220,10 260,35 Q300,0 350,30 Q400,15 440,35 Q480,-5 530,30 Q580,10 630,35 Q680,-5 730,30 Q780,15 820,35 Q860,0 910,30 Q960,10 1000,35 Q1050,-5 1100,30 Q1150,10 1200,40 L1200,60 Z" fill="#254226" />
+                  {/* Uneven dirt connecting into the underground */}
+                  <path d="M0,60 L0,50 Q60,30 120,45 Q180,25 240,48 Q300,35 360,50 Q420,25 480,45 Q540,35 600,52 Q660,25 720,48 Q780,35 840,45 Q900,25 960,50 Q1020,35 1080,48 Q1140,25 1200,50 L1200,60 Z" fill="#1e3320" />
+                </svg>
+              </div>
+            </ParallaxLayer>
 
             {/* Rock texture overlay */}
             <ParallaxLayer offset={4.5} speed={0.1} style={{ pointerEvents: 'none', opacity: 0.08 }}>
