@@ -414,7 +414,7 @@ export default function Home() {
 
 
             {/* ═══════════════════════════════════════════════════
-                CONTENT LAYERS (preserved exactly as before)
+                CONTENT LAYERS
                ═══════════════════════════════════════════════════ */}
 
             {/* Sun (sticky in sky) — CSS Glow Ball */}

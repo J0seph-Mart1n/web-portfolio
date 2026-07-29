@@ -1,10 +1,11 @@
 import React from 'react';
+import { motion } from "motion/react";
 
 export function SocialLinksSection() {
   const socials = [
     {
       name: 'GitHub',
-      url: 'https://github.com/',
+      url: 'https://github.com/J0seph-Mart1n',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -13,7 +14,7 @@ export function SocialLinksSection() {
     },
     {
       name: 'LinkedIn',
-      url: 'https://linkedin.com/',
+      url: 'https://www.linkedin.com/in/joseph-martin-656360228/',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -24,7 +25,7 @@ export function SocialLinksSection() {
     },
     {
       name: 'Twitter',
-      url: 'https://twitter.com/',
+      url: 'https://x.com/JoSEPhMaRtin001',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
@@ -33,7 +34,7 @@ export function SocialLinksSection() {
     },
     {
       name: 'Email',
-      url: 'mailto:contact@example.com',
+      url: 'mailto:jmkl0987@gmail.com',
       icon: (
         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -44,20 +45,26 @@ export function SocialLinksSection() {
   ];
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '2rem',
-      padding: '3rem',
-      background: 'rgba(13, 7, 4, 0.6)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: '24px',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      boxShadow: '0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05)',
-      color: '#fff',
-      zIndex: 20
-    }}>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+      viewport={{ once: false, margin: "-50px" }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2rem',
+        padding: '3rem',
+        background: 'rgba(13, 7, 4, 0.6)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '24px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05)',
+        color: '#fff',
+        zIndex: 20
+      }}
+    >
       <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', margin: 0, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
         Let's Connect
       </h2>
@@ -106,6 +113,42 @@ export function SocialLinksSection() {
           </a>
         ))}
       </div>
-    </div>
+
+      <a
+        href="/resume.pdf"
+        download="Joseph_Martin_Resume.pdf"
+        style={{
+          marginTop: '1.5rem',
+          padding: '0.8rem 2rem',
+          background: 'linear-gradient(90deg, #e67e22, #d35400)',
+          color: '#fff',
+          borderRadius: '30px',
+          fontWeight: 'bold',
+          textDecoration: 'none',
+          fontSize: '1.1rem',
+          boxShadow: '0 4px 15px rgba(230,126,34,0.4)',
+          transition: 'all 0.3s ease',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-3px)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(230,126,34,0.6)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 15px rgba(230,126,34,0.4)';
+        }}
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download Resume
+      </a>
+    </motion.div>
   );
 }
