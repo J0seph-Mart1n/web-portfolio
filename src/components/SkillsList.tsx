@@ -1,14 +1,24 @@
 import React from 'react';
 import { animated } from '@react-spring/web';
 import Marquee from 'react-fast-marquee';
-import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiTailwindcss } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiGo, SiNeo4J, SiPostgresql, SiMongodb, SiDocker, SiFirebase, SiOllama } from 'react-icons/si';
 
+// Skills [React, React native, Node.js, FastAPI, Python, Go, Neo4j, PostreSQL, MongoDB, Docker, Firebase, LLaMA, Ollama]
 const skills = [
   { name: 'React', Icon: SiReact, color: '#61DAFB' },
-  { name: 'Next.js', Icon: SiNextdotjs, color: '#ffffff' }, // White for dark mode visibility
+  { name: 'Next.js', Icon: SiNextdotjs },
   { name: 'Node.js', Icon: SiNodedotjs, color: '#339933' },
   { name: 'TypeScript', Icon: SiTypescript, color: '#3178C6' },
-  { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' }
+  { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
+  { name: 'Python', Icon: SiPython, color: '#3776AB' },
+  { name: 'FastAPI', Icon: SiFastapi, color: '#009688' },
+  { name: "Go", Icon: SiGo, color: '#00ADD8' },
+  { name: "Neo4J", Icon: SiNeo4J, color: '#018BFF' },
+  { name: "PostgreSQL", Icon: SiPostgresql, color: '#4169E1' },
+  { name: "MongoDB", Icon: SiMongodb, color: '#47A248' },
+  { name: "Docker", Icon: SiDocker, color: '#2496ED' },
+  { name: "Firebase", Icon: SiFirebase, color: '#FFCA28' },
+  { name: "Ollama", Icon: SiOllama },
 ];
 
 export function SkillsList({ springs }: { springs: any }) {
