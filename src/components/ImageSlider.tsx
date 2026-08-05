@@ -20,7 +20,7 @@ export function ImageSlider({ images, color = '#ffffff' }: { images: string[], c
         <CarouselContent className="ml-0">
           {images.map((src, idx) => (
             <CarouselItem key={idx} className="w-full pl-0 flex justify-center items-center">
-              <Zoom zoomMargin={40} overlayBgColorEnd="rgba(0, 0, 0, 0.9)">
+              <Zoom zoomMargin={40}>
                 <img
                   src={src}
                   alt={`Slide ${idx + 1}`}
