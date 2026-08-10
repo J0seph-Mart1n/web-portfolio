@@ -1,16 +1,15 @@
 import React from 'react';
-import { Layers, Cpu } from 'lucide-react';
 import { ProjectData } from '@/data/projects';
 import { ImageSlider } from '@/components/ImageSlider';
 
 const personaImages = [
-  '/images/Persona/1_Dashboard.png',
-  '/images/Persona/2_Chat.png',
-  '/images/Persona/3_Traits.png',
-  '/images/Persona/4_Assessment.png',
-  '/images/Persona/5_Result.png',
-  '/images/Persona/6_MBTI.png',
-  '/images/Persona/7_Settings.png',
+  { src: '/images/Persona/1_Dashboard.png', caption: 'Dashboard Page' },
+  { src: '/images/Persona/2_Chat.png', caption: 'Chat Page' },
+  { src: '/images/Persona/3_Traits.png', caption: 'Traits Page' },
+  { src: '/images/Persona/4_Assessment.png', caption: 'Assessment Page' },
+  { src: '/images/Persona/5_Result.png', caption: 'Assessment Results of the User' },
+  { src: '/images/Persona/6_MBTI.png', caption: 'MBTI Page' },
+  { src: '/images/Persona/7_Settings.png', caption: 'Settings Page' },
 ];
 
 export function PersonaAI({ project }: { project: ProjectData }) {

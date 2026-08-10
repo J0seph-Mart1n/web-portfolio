@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Layers, Cpu } from 'lucide-react';
 import { ProjectData } from '@/data/projects';
@@ -9,20 +10,32 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 
 const vitalityImages = [
-  "/images/Vitality/1_Dashboard.png",
-  "/images/Vitality/2_Scan_History.png",
-  "/images/Vitality/3_Daily_Logs.png",
-  "/images/Vitality/4_Log_Entry.png"
+  { src: "/images/Vitality/1_Dashboard.png", caption: "Main Dashboard" },
+  { src: "/images/Vitality/2_Scan_History.png", caption: "Scan History" },
+  { src: "/images/Vitality/3_Daily_Logs.png", caption: "Daily Logs" },
+  { src: "/images/Vitality/4_Log_Entry.png", caption: "Daily Food Logging" }
 ];
 
 export function Vitality({ project }: { project: ProjectData }) {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  const currentCaption = vitalityImages[current]?.caption;
+
   return (
     <>
-      {/* Hero Image Placeholder */}
-      {/* Hero Mockup */}
       <div className="w-full flex justify-center mb-20 relative z-10">
         <div className="relative w-full max-w-sm mx-auto">
           {/* Background Glow */}
@@ -30,13 +43,13 @@ export function Vitality({ project }: { project: ProjectData }) {
             className="absolute -inset-4 opacity-30 blur-2xl rounded-full" 
             style={{ background: project.color }} 
           />
-          <Carousel className="w-full group" opts={{ loop: true }}>
+          <Carousel setApi={setApi} className="w-full group" opts={{ loop: true }}>
             <CarouselContent>
-              {vitalityImages.map((src, idx) => (
+              {vitalityImages.map((item, idx) => (
                 <CarouselItem key={idx} className="flex justify-center">
                   <DeviceFrameset device="iPhone X" color="black">
                     <img 
-                      src={src} 
+                      src={item.src} 
                       alt={`Vitality Screen ${idx + 1}`} 
                       className="w-full h-full object-cover pointer-events-none object-top scale-[1.025] origin-top"
                     />
@@ -47,9 +60,11 @@ export function Vitality({ project }: { project: ProjectData }) {
             <CarouselPrevious className="-left-12 md:-left-16 bg-black/50 hover:bg-black/70 border-white/20 text-white opacity-0 group-hover:opacity-100 transition-opacity h-10 w-10 md:h-12 md:w-12 z-20" />
             <CarouselNext className="-right-12 md:-right-16 bg-black/50 hover:bg-black/70 border-white/20 text-white opacity-0 group-hover:opacity-100 transition-opacity h-10 w-10 md:h-12 md:w-12 z-20" />
           </Carousel>
-          <h3 className="mt-8 text-xl font-bold text-white tracking-wide text-center drop-shadow-md">
-              Live shots of the app
-      </h3>
+          <div className="min-h-[64px] flex items-center justify-center mt-8">
+            <h3 className="text-[25px] font-bold text-gray-300 tracking-wide text-center animate-in fade-in slide-in-from-top-2 duration-500">
+              {currentCaption}
+            </h3>
+          </div>
         </div>
       </div>
       
