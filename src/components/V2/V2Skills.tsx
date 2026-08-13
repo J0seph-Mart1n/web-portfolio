@@ -42,7 +42,7 @@ export function V2Skills() {
       <div className="bg-zinc-900/40 backdrop-blur-md border border-white/10 rounded-2xl py-12 overflow-hidden shadow-2xl">
         <Marquee 
           gradient={true}
-          gradientColor={[0, 0, 0]}
+          gradientColor="black"
           gradientWidth={100}
           speed={50} 
           pauseOnHover={true}
