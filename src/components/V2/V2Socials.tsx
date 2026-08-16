@@ -69,14 +69,11 @@ export function V2Socials() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            className="group flex flex-col items-center gap-3 p-4 w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-white/5 border border-white/10 hover:bg-[#87BCDE]/10 hover:border-[#87BCDE]/50 transition-all duration-300"
+            className="group flex justify-center items-center w-16 h-16 md:w-15 md:h-15 rounded-full bg-white/5 border border-white/10 hover:bg-[#87BCDE]/10 hover:border-[#87BCDE]/50 hover:scale-110 shadow-lg hover:shadow-[0_0_20px_rgba(135,188,222,0.3)] transition-all duration-300"
           >
-            <div className="text-zinc-400 group-hover:text-[#87BCDE] group-hover:scale-110 transition-all duration-300">
+            <div className="text-zinc-400 group-hover:text-[#87BCDE] transition-colors duration-300">
               {social.icon}
             </div>
-            <span className="font-sans text-xs md:text-sm font-medium text-zinc-400 group-hover:text-white transition-colors">
-              {social.name}
-            </span>
           </motion.a>
         ))}
       </div>

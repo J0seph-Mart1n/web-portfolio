@@ -1,534 +1,293 @@
-'use client'
-import React, { useRef, useEffect } from 'react'
-import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax'
-import { useSpring, animated } from '@react-spring/web'
-import { TypingAnimation } from "@/components/ui/typing-animation"
-import { TextAnimate } from "@/components/ui/text-animate"
-import { BlurFade } from '@/components/ui/blur-fade'
-import { ExperienceTimeline } from "@/components/ExperienceTimeline"
-import { SkillsList } from "@/components/SkillsList"
-import { StarField } from "@/components/StarField"
-import { MountainSilhouette } from "@/components/MountainSilhouette"
-import { UndergroundCrystals } from "@/components/UndergroundCrystals"
-import { ProjectsSection } from "@/components/ProjectsSection"
-import { SocialLinksSection } from "@/components/SocialLinksSection"
-import { spring } from 'motion'
+"use client";
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from "motion/react";
 
-const url = (name: string, wrap = false) =>
-  `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
+// Components
+import { TypingAnimation } from "@/components/ui/typing-animation";
+import { TextAnimate } from "@/components/ui/text-animate";
+import { V2Experience } from '@/components/V2/V2Experience';
+import { V2Skills } from '@/components/V2/V2Skills';
+import { V2Projects } from '@/components/V2/V2Projects';
+import { V2Socials } from '@/components/V2/V2Socials';
+import { V2LoadingScreen } from '@/components/V2/V2LoadingScreen';
 
+const TOTAL_FRAMES = 495;
 
-export default function Home() {
-  const parallax = useRef<IParallax>(null!)
-  const [springs, api] = useSpring(() => ({ 
-    sharedX: -500, 
-    planeOffset: 0, 
-    bannerScale: 1, 
-    ropeOpacity: 1 ,
-    widthBannerScale: 35,
-    heightBannerScale: 15,
-    exp1Opacity: 0,
-    exp2Opacity: 0,
-    exp3Opacity: 0,
-    timelineProgress: 0
-  }))
+const SECTIONS = [
+  { id: "intro", label: "Intro" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "socials", label: "Socials" },
+];
+
+export default function V2Page() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageCache = useRef<Record<number, HTMLImageElement>>({});
+  const [activeSection, setActiveSection] = useState("intro");
+  
+  // Loading Screen States
+  const [appState, setAppState] = useState<'loading' | 'ready' | 'entered'>('loading');
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
+  // Track which section is currently in the viewport
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const preloadImages = () => {
+    let loadedCount = 0;
+    const totalToPreload = 30; // Preload first 30 frames for the intro
+    
+    for (let i = 1; i <= totalToPreload; i++) {
+      const img = getImage(i);
+      
+      const checkProgress = () => {
+        loadedCount++;
+        setLoadingProgress(Math.round((loadedCount / totalToPreload) * 100));
+        if (loadedCount === totalToPreload) setAppState('ready');
+      };
+
+      // Depending on cache, it might already be complete
+      if (img.complete && img.src) {
+        checkProgress();
+      } else {
+        img.onload = checkProgress;
+        img.onerror = checkProgress; // Don't block indefinitely on error
+      }
+    }
+  };
+
+  const getImage = (frameNumber: number) => {
+    if (imageCache.current[frameNumber]) {
+      return imageCache.current[frameNumber];
+    }
+    const img = new Image();
+    const paddedNumber = frameNumber.toString().padStart(4, '0');
+    img.src = `/Videos/frames/frame_${paddedNumber}.jpg`;
+    imageCache.current[frameNumber] = img;
+    return img;
+  };
+
+  const drawFrame = (frameNumber: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = getImage(frameNumber);
+    
+    if (img.complete) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    } else {
+      img.addEventListener('load', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }, { once: true });
+    }
+  };
 
   useEffect(() => {
-    if (!parallax.current || !parallax.current.container.current) return
-    const container = parallax.current.container.current
+    preloadImages();
+    drawFrame(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const [frameProgress, setFrameProgress] = useState(0);
+
+  useEffect(() => {
     const handleScroll = () => {
-      const scroll = container.scrollTop
-      const H = container.clientHeight
-      const W = container.clientWidth
-      
-      // Calculate progress from 0 to 1
-      const progress = Math.max(0, Math.min(1, (scroll - H) / (0.5 * H)))
-      
-      // Normal flight path if they never detached
-      // Changed to start much further left (-0.8 * W) so the long banner starts fully hidden
-      // Distance is increased to (2.6 * W) so it still hits the center perfectly at progress = 0.5
-      // (Added your -270 offset here so it doesn't suddenly jump when detaching!)
-      const normalX = (progress * (W * 2.6)) - (W * 0.8) - 270
-      
-      let sharedX = normalX
-      let planeOffset = 0
-      let bannerScale = 1
-      let ropeOpacity = 1
-      let widthBannerScale = 15
-      let heightBannerScale = 15
-      let exp1Opacity = 0
-      let exp2Opacity = 0
-      let exp3Opacity = 0
-      let timelineProgress = 0
-      
-      if (progress > 0.5) {
-        // 1. Banner reaches center and stops moving horizontally
-        sharedX = (0.5 * (W * 2.6)) - (W * 0.8) - 270
-        
-        // Calculate secondary progress (0 to 1) for the second half of the scroll
-        const detachProgress = (progress - 0.5) * 2
-        
-        // 2. Banner scales up (zooms in) to 1.5x
-        bannerScale = 1 + (detachProgress * 1.5)
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
+      setFrameProgress(progress);
+    };
 
-        // Smoothly expand the width (35vw to 75vw) and height (15vh to 85vh)
-        const addedWidthVw = detachProgress * 40
-        widthBannerScale = 35 + addedWidthVw
-        heightBannerScale = 15 + (detachProgress * 70)
-        
-        // Because the banner grows to the right inside the flex container, we must shift 
-        // the entire container left by half the width increase so it visually expands from its center!
-        const addedWidthPx = addedWidthVw * (W / 100)
-        sharedX -= (addedWidthPx / 2) +45
-        
-        // 3. Rope fades out quickly to simulate detaching
-        ropeOpacity = Math.max(0, 1 - (detachProgress * 5))
-        
-        // 4. Plane continues flying off the screen independently
-        planeOffset = (normalX - sharedX) * 1.5
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    
+    // Initial call
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const frameIndex = Math.max(1, Math.floor(frameProgress * TOTAL_FRAMES));
+    
+    requestAnimationFrame(() => {
+      drawFrame(frameIndex);
+    });
+    
+    for (let i = 1; i <= 5; i++) {
+      if (frameIndex + i <= TOTAL_FRAMES) {
+        getImage(frameIndex + i);
       }
-      
-      // 5. Fade in experience items sequentially as we continue scrolling past 1.5H
-      if (scroll > 1.5 * H) {
-        exp1Opacity = Math.max(0, Math.min(1, (scroll - 1.5 * H) / (0.15 * H)))
-        exp2Opacity = Math.max(0, Math.min(1, (scroll - 1.65 * H) / (0.15 * H)))
-        exp3Opacity = Math.max(0, Math.min(1, (scroll - 1.8 * H) / (0.15 * H)))
-        
-        // Timeline progress goes from 0 to 100 as the 3 items fade in
-        timelineProgress = Math.max(0, Math.min(100, ((scroll - 1.5 * H) / (0.45 * H)) * 100))
-      }
-      
-      api.start({ sharedX, planeOffset, bannerScale, ropeOpacity, widthBannerScale, heightBannerScale, exp1Opacity, exp2Opacity, exp3Opacity, timelineProgress })
     }
+  }, [frameProgress]);
 
-    container.addEventListener('scroll', handleScroll)
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [api])
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Lock scrolling while in loading/ready states
+  useEffect(() => {
+    if (appState !== 'entered') {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => { document.body.style.overflow = 'auto'; };
+  }, [appState]);
 
   return (
-    <div style={{ width: '100%', height: '100%', background: '#050510' }}>
-        <Parallax ref={parallax} pages={5.5}>
+    <main className="relative bg-black min-h-screen font-sans selection:bg-[#87BCDE]/30">
+      
+      {/* LOADING OVERLAY */}
+      <V2LoadingScreen 
+        appState={appState} 
+        loadingProgress={loadingProgress} 
+        setAppState={setAppState} 
+      />
 
-            {/* ═══════════════════════════════════════════════════
-                LAYER 0: SPACE — Deep space background
-               ═══════════════════════════════════════════════════ */}
+      {/* 1. FIXED BACKGROUND CANVAS */}
+      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-black">
+        <canvas
+          ref={canvasRef}
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover opacity-40 md:opacity-60"
+        />
+        {/* Subtle gradient overlay to ensure text remains readable over the video */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80"></div>
+      </div>
 
-            {/* Deep space gradient base */}
-            <ParallaxLayer
-              offset={0}
-              speed={0}
-              factor={1}
-              style={{
-                background: 'linear-gradient(180deg, #050510 0%, #0a0a2e 30%, #0d1137 60%, #141852 100%)',
-              }}
+      {/* FIXED SIDE TIMELINE NAVIGATION (hidden on mobile) */}
+      <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-end gap-6">
+        {/* Vertical line behind the dots */}
+        <div className="absolute right-[5px] top-0 bottom-0 w-px bg-white/15" />
+        
+        {SECTIONS.map(({ id, label }) => {
+          const isActive = activeSection === id;
+          return (
+            <button
+              key={id}
+              onClick={() => scrollToSection(id)}
+              className="relative flex items-center gap-3 group cursor-pointer"
+              aria-label={`Scroll to ${label}`}
             >
-              {/* This bridges the subpixel rendering gap between the two pages without altering their size! */}
-              <div style={{ position: 'absolute', bottom: '-2px', left: 0, width: '100%', height: '4px', background: '#141852' }} />
-            </ParallaxLayer>
-
-            {/* Original stars SVG (kept) */}
-            <ParallaxLayer
-              offset={0}
-              speed={0}
-              factor={3}
-              style={{
-                backgroundImage: url('stars', true),
-                backgroundSize: 'cover',
-              }}
-            />
-
-            {/* Twinkling star particles overlay */}
-            <ParallaxLayer offset={0} speed={0.05} factor={1.2} style={{ pointerEvents: 'none' }}>
-              <StarField />
-            </ParallaxLayer>
-
-            {/* Massive Space Station */}
-            <ParallaxLayer offset={0.05} speed={0.4} style={{ pointerEvents: 'none', display: 'flex', justifyContent: 'flex-end', zIndex: 10 }}>
-              <div className="spaceship-enter" style={{ marginRight: '5%', marginTop: '5%', width: '60vw', rotate:'50deg' }}>
-                <div 
-                  className="cloud-float-slow"
-                  style={{ opacity: 1 }}
-                >
-                  <svg viewBox="0 0 400 200" style={{ filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.8))' }}>
-                  {/* Left Solar Panel */}
-                  <rect x="20" y="70" width="100" height="60" fill="#2980b9" stroke="#1c5980" strokeWidth="4" />
-                  <line x1="45" y1="70" x2="45" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="70" y1="70" x2="70" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="95" y1="70" x2="95" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="20" y1="100" x2="120" y2="100" stroke="#1c5980" strokeWidth="2" />
-                  
-                  {/* Right Solar Panel */}
-                  <rect x="280" y="70" width="100" height="60" fill="#2980b9" stroke="#1c5980" strokeWidth="4" />
-                  <line x1="305" y1="70" x2="305" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="330" y1="70" x2="330" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="355" y1="70" x2="355" y2="130" stroke="#1c5980" strokeWidth="2" />
-                  <line x1="280" y1="100" x2="380" y2="100" stroke="#1c5980" strokeWidth="2" />
-                  
-                  {/* Truss Connectors */}
-                  <rect x="120" y="92" width="40" height="16" fill="#7f8c8d" />
-                  <rect x="240" y="92" width="40" height="16" fill="#7f8c8d" />
-                  
-                  {/* Central Hub Core */}
-                  <rect x="160" y="40" width="80" height="120" rx="15" fill="#ecf0f1" stroke="#bdc3c7" strokeWidth="4" />
-                  
-                  {/* Hub Windows */}
-                  <rect x="170" y="60" width="60" height="15" rx="4" fill="#34495e" />
-                  <rect x="170" y="90" width="60" height="15" rx="4" fill="#34495e" />
-                  <rect x="170" y="120" width="60" height="15" rx="4" fill="#34495e" />
-                  
-                  {/* Top Antenna/Dish */}
-                  <line x1="200" y1="40" x2="200" y2="10" stroke="#95a5a6" strokeWidth="4" />
-                  <path d="M 175 10 Q 200 -15 225 10 Z" fill="#95a5a6" />
-                  <circle cx="200" cy="5" r="4" fill="#e74c3c" className="magma-vein" />
-                  
-                  {/* Bottom Module */}
-                  <rect x="175" y="160" width="50" height="30" rx="5" fill="#95a5a6" />
-                  <circle cx="200" cy="175" r="8" fill="#e67e22" />
-                  <rect x="190" y="190" width="20" height="10" fill="#7f8c8d" />
-                </svg>
-              </div>
-            </div>
-          </ParallaxLayer>
-
-            {/* Nebula glow behind hero */}
-            <ParallaxLayer offset={0} speed={0.1} style={{ pointerEvents: 'none' }}>
-              <div style={{
-                position: 'absolute',
-                top: '20%',
-                left: '30%',
-                width: '500px',
-                height: '500px',
-                background: 'radial-gradient(ellipse, rgba(135,188,222,0.08) 0%, transparent 70%)',
-                borderRadius: '50%',
-                filter: 'blur(60px)',
-              }} />
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                right: '15%',
-                width: '300px',
-                height: '300px',
-                background: 'radial-gradient(ellipse, rgba(128,94,115,0.1) 0%, transparent 70%)',
-                borderRadius: '50%',
-                filter: 'blur(40px)',
-              }} />
-            </ParallaxLayer>
-
-
-            {/* Astronaut GIF (kept exactly) */}
-            <ParallaxLayer offset={0.60} speed={0.5} style={{ pointerEvents: 'none' }}>
-              <img src={"https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWg5YnNqM2NkODlwemdpMTNic2piN2tza2NsNTJraGl2c2w4MnlpbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/w2Ic2kFYV5oP7ukfuR/giphy.gif"}
-                      style={{ width: "220px", height: "250px", marginLeft: '40%', rotate:'20deg' }}
+              {/* Label — visible on hover or when active */}
+              <span
+                className={`text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
+                  isActive
+                    ? "opacity-100 text-[#87BCDE] translate-x-0"
+                    : "opacity-0 group-hover:opacity-100 text-white/60 translate-x-2 group-hover:translate-x-0"
+                }`}
               >
-              </img>
-            </ParallaxLayer>
+                {label}
+              </span>
 
-            {/* Hero text (kept exactly) */}
-            <ParallaxLayer
-              offset={0}
-              speed={0.1}
-              style={{
-                display: 'flex',
-                alignItems: 'left',
-                justifyContent: 'left',
-                flexDirection: 'column',
-              }}
-            >
-              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, paddingTop: '250px', fontWeight: 700, letterSpacing: '-0.05em', display: 'flex'}}>
-                <TextAnimate animation="blurInUp" by="character">
-                  Hi,
-                </TextAnimate>
-                <BlurFade delay={0.1} inView>
-                    <img src="/images/512.gif" width="100px" height="100px" style={{ marginLeft: '10px',marginTop: '25px'}}/>
-                </BlurFade>
-                
-              </h1>
-              <h1 style={{ fontSize: '5rem', color: '#fff', marginLeft: 30, marginTop: -20, fontWeight: 700, letterSpacing: '-0.05em' }}>
-                <TextAnimate animation='blurInUp' by="character" delay={0.2}>
-                  I'm Joseph Martin
-                </TextAnimate>
-              </h1>
-              <BlurFade delay={0.3} inView>
-                <h2 style={{ fontSize: '2.5rem', color: '#87BCDE', marginLeft: 30, fontWeight: 300, display: "flex" }}>
-                    <img src="/images/terminal.png" style={{ width: "60px", height: "50px", paddingRight: "10px" }}/>
-                    <TypingAnimation
-                        words={["Software Engineer", "Full Stack Developer", "Automation Tester"]}
-                        cursorStyle="block"
-                        loop
-                        className="text-4xl font-bold"
-                    />
-                </h2>
-              </BlurFade>
-            </ParallaxLayer>
-
-
-            {/* ═══════════════════════════════════════════════════
-                LAYER 1: SKY — Atmosphere transition
-               ═══════════════════════════════════════════════════ */}
-
-            {/* Sky gradient background */}
-            <ParallaxLayer
-              offset={1}
-              speed={0}
-              factor={2}
-              style={{
-                background: 'linear-gradient(180deg, #141852 0%, #1B2838 8%, #2a4a6b 20%, #5b8fb9 40%, #87CEEB 60%, #a8d8ea 80%, #c9e8f0 100%)',
-              }}
-            >
-              {/* Bridge subpixel gap to land layer */}
-              <div style={{ position: 'absolute', bottom: '-2px', left: 0, width: '100%', height: '4px', background: '#c9e8f0' }} />
-            </ParallaxLayer>
-
-            {/* Cloud layers — varying speeds for depth */}
-            <ParallaxLayer offset={1.1} speed={0.4} style={{ opacity: 0.6, pointerEvents: 'none' }}>
-              <img src={url('cloud')} className="cloud-float" style={{ display: 'block', width: '25%', marginLeft: '5%' }} />
-              <img src={url('cloud')} className="cloud-float-slow" style={{ display: 'block', width: '18%', marginLeft: '65%', marginTop: '-5%' }} />
-            </ParallaxLayer>
-
-            <ParallaxLayer offset={1.2} speed={0.8} style={{ opacity: 0.15, pointerEvents: 'none' }}>
-              <img src={url('cloud')} className="cloud-float-slow" style={{ display: 'block', width: '20%', marginLeft: '55%' }} />
-              <img src={url('cloud')} className="cloud-float" style={{ display: 'block', width: '10%', marginLeft: '15%' }} />
-            </ParallaxLayer>
-
-            <ParallaxLayer offset={1.6} speed={0.8} style={{ opacity: 0.15, pointerEvents: 'none' }}>
-              <img src={url('cloud')} className="cloud-float-slow" style={{ display: 'block', width: '20%', marginLeft: '35%' }} />
-            </ParallaxLayer>
-
-            <ParallaxLayer offset={1.4} speed={0.3} style={{ opacity: 0.3, pointerEvents: 'none' }}>
-              <img src={url('cloud')} className="cloud-float" style={{ display: 'block', width: '30%', marginLeft: '40%' }} />
-            </ParallaxLayer>
-
-            <ParallaxLayer offset={1.8} speed={0.5} style={{ opacity: 0.25, pointerEvents: 'none' }}>
-              <img src={url('cloud')} className="cloud-float-slow" style={{ display: 'block', width: '15%', marginLeft: '75%' }} />
-              <img src={url('cloud')} className="cloud-float" style={{ display: 'block', width: '22%', marginLeft: '10%', marginTop: '5%' }} />
-            </ParallaxLayer>
-
-
-            {/* ═══════════════════════════════════════════════════
-                LAYER 2: LAND — Earth surface with mountains
-               ═══════════════════════════════════════════════════ */}
-
-            {/* Land gradient background — top half sky, bottom half earth */}
-            <ParallaxLayer
-              offset={3}
-              speed={0}
-              factor={1.3}
-              style={{
-                background: 'linear-gradient(180deg, #c9e8f0 0%, #d8eff2 20%, #e0f2f3 35%, #e8f4f0 50%, #b8d4a8 60%, #7ab648 70%, #4a8c4b 80%, #3d6b3e 90%, #2d4a2e 100%)',
-              }}
-            />
-
-            {/* Full natural landscape scene (mountains, trees, river, rocks, birds) */}
-            <ParallaxLayer offset={3} speed={0.15} factor={1.5} style={{ pointerEvents: 'none' }}>
-              <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                <MountainSilhouette />
-              </div>
-            </ParallaxLayer>
-
-            {/* Projects section on land */}
-            <ParallaxLayer
-              offset={3}
-              sticky={{start: 3, end:3.3}}
-              speed={0.2}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <ProjectsSection />
-            </ParallaxLayer>
-
-
-            {/* ═══════════════════════════════════════════════════
-                LAYER 3: UNDERGROUND — Deep earth
-               ═══════════════════════════════════════════════════ */}
-
-            {/* Underground gradient background */}
-            <ParallaxLayer
-              offset={4.3}
-              speed={0}
-              factor={1.2}
-              style={{
-                background: 'linear-gradient(180deg, #1e3320 0%, #3b2a1a 15%, #4a3728 30%, #3d2b1c 50%, #2d1810 70%, #1a0f08 90%, #0d0704 100%)',
-              }}
-            >
-              {/* Natural boundary bushes/dirt transition */}
-              <div style={{ position: 'absolute', top: '-30px', left: 0, width: '100%', height: '60px', zIndex: 10 }}>
-                <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
-                  {/* Darker bushes bridging into the land */}
-                  <path d="M0,60 L0,40 Q40,10 80,35 Q130,-5 180,30 Q220,10 260,35 Q300,0 350,30 Q400,15 440,35 Q480,-5 530,30 Q580,10 630,35 Q680,-5 730,30 Q780,15 820,35 Q860,0 910,30 Q960,10 1000,35 Q1050,-5 1100,30 Q1150,10 1200,40 L1200,60 Z" fill="#254226" />
-                  {/* Uneven dirt connecting into the underground */}
-                  <path d="M0,60 L0,50 Q60,30 120,45 Q180,25 240,48 Q300,35 360,50 Q420,25 480,45 Q540,35 600,52 Q660,25 720,48 Q780,35 840,45 Q900,25 960,50 Q1020,35 1080,48 Q1140,25 1200,50 L1200,60 Z" fill="#1e3320" />
-                </svg>
-              </div>
-            </ParallaxLayer>
-
-            {/* Rock texture overlay */}
-            <ParallaxLayer offset={4.5} speed={0.1} style={{ pointerEvents: 'none', opacity: 0.08 }}>
-              <div style={{
-                width: '100%',
-                height: '100%',
-                backgroundImage: `
-                  radial-gradient(ellipse 80px 60px at 20% 30%, #8B7355 0%, transparent 70%),
-                  radial-gradient(ellipse 60px 80px at 60% 50%, #6B5B45 0%, transparent 70%),
-                  radial-gradient(ellipse 100px 40px at 40% 70%, #7B6B55 0%, transparent 70%),
-                  radial-gradient(ellipse 50px 70px at 80% 20%, #8B7B65 0%, transparent 70%),
-                  radial-gradient(ellipse 70px 50px at 10% 80%, #7B6B55 0%, transparent 70%)
-                `,
-              }} />
-            </ParallaxLayer>
-
-            {/* Glowing crystals and magma veins */}
-            <ParallaxLayer offset={4.5} speed={0.15} style={{ pointerEvents: 'none' }}>
-              <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                <UndergroundCrystals />
-              </div>
-            </ParallaxLayer>
-
-            {/* Social Links Section */}
-            <ParallaxLayer
-              offset={4.5}
-              speed={0.2}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column'
-              }}
-            >
-              <SocialLinksSection />
-            </ParallaxLayer>
-
-            {/* Soil cross-section lines */}
-            <ParallaxLayer offset={4.5} speed={0.05} style={{ pointerEvents: 'none', opacity: 0.12 }}>
-              <svg style={{ width: '100%', height: '100%' }}>
-                {/* Horizontal sediment layers */}
-                <line x1="0" y1="15%" x2="100%" y2="17%" stroke="#8B7355" strokeWidth="1" />
-                <line x1="0" y1="35%" x2="100%" y2="33%" stroke="#6B5B45" strokeWidth="1.5" />
-                <line x1="0" y1="55%" x2="100%" y2="57%" stroke="#7B6B55" strokeWidth="1" />
-                <line x1="0" y1="75%" x2="100%" y2="73%" stroke="#5B4B35" strokeWidth="2" />
-              </svg>
-            </ParallaxLayer>
-
-
-            {/* ═══════════════════════════════════════════════════
-                CONTENT LAYERS
-               ═══════════════════════════════════════════════════ */}
-
-            {/* Sun (sticky in sky) — CSS Glow Ball */}
-            <ParallaxLayer sticky={{start:1.2, end:3}} style={{ opacity: 1, alignItems: 'center', display:'flex', paddingBottom: '300px', pointerEvents: 'none'}}>
-              <div 
-                style={{ 
-                  width: '120px', 
-                  height: '120px', 
-                  marginLeft: '85%',
-                  borderRadius: '50%',
-                  background: '#ffde59',
-                  boxShadow: '0 0 40px 15px rgba(255, 222, 89, 0.5), 0 0 80px 30px rgba(255, 222, 89, 0.2)'
-                }} 
-              />
-            </ParallaxLayer>
-
-            {/* Plane + Banner + Rope (sticky in sky) — KEPT EXACTLY */}
-            <ParallaxLayer sticky={{start: 1.2, end:2}}  speed={0.2} style={{ opacity: 1, pointerEvents: 'none', display: 'flex' }}>
-              <animated.div style={{ 
-                display: 'flex', 
-                alignItems: 'center',  
-                width: 'max-content', 
-                x: springs.sharedX,
-                rotate: '-5deg'
-              }}>
-                {/* The Trailing Banner */}
-                <animated.div style={{
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  padding: '1.5rem 2rem',
-                  borderRadius: '12px',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                  color: '#253237',
-                  border: '3px solid #87BCDE',
-                  position: 'relative',
-                  zIndex: 2,
-                  rotate: '4.5deg',
-                  marginBottom: '50px',
-                  width: springs.widthBannerScale.to(w => `${w}vw`),
-                  height: springs.heightBannerScale.to(h => `${h}vh`),
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden'
-                }}>
-                  
-                  {/* Experience Row */}
-                  <animated.div style={{ 
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '0.5rem',
-                    fontSize: springs.bannerScale.to(s => `${s * 0.9}vw`) 
-                  }}>
-                    <ExperienceTimeline springs={springs} />
-                  </animated.div>
-
-                  {/* Horizontal Divider */}
-                  <animated.div style={{ 
-                    width: '80%', 
-                    background: '#87BCDE', 
-                    margin: springs.bannerScale.to(s => `${(s - 1) * 0.1}rem 0`), // Reduced multiplier here to shrink spacing!
-                    maxHeight: springs.bannerScale.to(s => `${(s - 1) * 2}px`),
-                    height: '2px',
-                    opacity: springs.bannerScale.to(s => Math.max(0, (s - 2.2) * 3.33)) // Fades in only at the very end of the zoom
-                  }} />
-
-                  {/* Skills Row */}
-                  <animated.div style={{ 
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '0.5rem',
-                    fontSize: springs.bannerScale.to(s => `${s * 0.9}vw`) 
-                  }}>
-                    <SkillsList springs={springs} />
-                  </animated.div>
-
-                </animated.div>
-
-                {/* The Ropes */}
-                <animated.svg viewBox="0 0 100 100" style={{ 
-                  width: '8vw', 
-                  height: '8vw', 
-                  marginLeft: '-0.5vw', 
-                  marginRight: '-4vw', 
-                  zIndex: 1, 
-                  overflow: 'visible',
-                  opacity: springs.ropeOpacity 
-                }}>
-                  {/* Top rope */}
-                  <path d="M 0 20 Q 50 40 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
-                  {/* Bottom rope */}
-                  <path d="M 0 80 Q 50 60 100 50" stroke="#4a5568" strokeWidth="4" fill="none" strokeDasharray="6 4" />
-                </animated.svg>
-                
-                {/* The Plane */}
-                <animated.img 
-                  src="/images/plane.png" 
-                  style={{ 
-                    display: 'block', 
-                    width: '20vw', 
-                    zIndex: 10, 
-                    position: 'relative',
-                    x: springs.planeOffset 
-                  }} 
+              {/* Dot */}
+              <div className="relative z-10 flex items-center justify-center">
+                <div
+                  className={`rounded-full transition-all duration-300 ${
+                    isActive
+                      ? "w-3 h-3 bg-[#87BCDE] shadow-[0_0_10px_rgba(135,188,222,0.7)]"
+                      : "w-2 h-2 bg-white/40 group-hover:bg-white/80"
+                  }`}
                 />
-              </animated.div>
-            </ParallaxLayer>
- 
-        </Parallax>
-    </div>
+              </div>
+            </button>
+          );
+        })}
+      </nav>
 
+      {/* 2. SCROLLING CONTENT OVERLAY */}
+      <div className="relative z-10 flex flex-col w-full">
+        
+        {/* INTRO SECTION */}
+        <section id="intro" className="min-h-[100vh] flex flex-col items-center justify-center text-center px-4 pt-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="flex flex-col items-center"
+          >
+            <TypingAnimation className="font-heading text-5xl md:text-7xl lg:text-[8vw] font-bold text-white tracking-tighter drop-shadow-2xl" duration={100}>
+              Joseph Martin
+            </TypingAnimation>
+            <div className="text-sm md:text-xl lg:text-2xl text-zinc-300 font-light mt-6 max-w-3xl drop-shadow-md">
+              <TextAnimate animation="blurInUp" by="word">
+                Software Engineer specializing in modern web applications, distributed systems, and AI integrations.
+              </TextAnimate>
+            </div>
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 1 }}
+              className="mt-16 animate-bounce text-white/50"
+            >
+              <p className="text-xs tracking-widest uppercase mb-2">Scroll to explore</p>
+              <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* EXPERIENCE SECTION */}
+        <section id="experience" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+          <V2Experience />
+        </section>
+
+        {/* SKILLS SECTION */}
+        <section id="skills" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+          <V2Skills />
+        </section>
+
+        {/* PROJECTS SECTION */}
+        <section id="projects" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+          <V2Projects />
+        </section>
+
+        {/* SPACER FOR VIDEO IMAGE */}
+        <div className="h-[100vh] w-full flex items-center justify-center pointer-events-none">
+           {/* This empty space allows the video to continue playing and showing the user's image before socials */}
+        </div>
+
+        {/* SOCIALS SECTION */}
+        <section id="socials" className="w-full mt-auto">
+          <V2Socials />
+        </section>
+
+      </div>
+    </main>
   );
 }
