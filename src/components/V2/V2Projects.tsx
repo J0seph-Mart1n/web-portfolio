@@ -206,7 +206,7 @@ export function V2Projects() {
                         <FaGithub size={22} />
                       </a>
                       <a
-                        href={`/case-studies/${project.slug}`}
+                        href={`/projects/${project.slug}`}
                         className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#87BCDE]/20 border border-[#87BCDE]/50 text-[#87BCDE] font-semibold text-sm hover:bg-[#87BCDE] hover:text-black transition-all shadow-lg"
                       >
                         <BookOpen size={18} />

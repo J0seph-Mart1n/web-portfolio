@@ -10,6 +10,7 @@ import { V2Skills } from '@/components/V2/V2Skills';
 import { V2Projects } from '@/components/V2/V2Projects';
 import { V2Socials } from '@/components/V2/V2Socials';
 import { V2LoadingScreen } from '@/components/V2/V2LoadingScreen';
+import { ChevronDown } from 'lucide-react';
 
 const TOTAL_FRAMES = 495;
 
@@ -29,6 +30,12 @@ export default function V2Page() {
   // Loading Screen States
   const [appState, setAppState] = useState<'loading' | 'ready' | 'entered'>('loading');
   const [loadingProgress, setLoadingProgress] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('hasVisitedV2') === 'true') {
+      setAppState('entered');
+    }
+  }, []);
 
   // Track which section is currently in the viewport
   useEffect(() => {
@@ -64,7 +71,9 @@ export default function V2Page() {
       const checkProgress = () => {
         loadedCount++;
         setLoadingProgress(Math.round((loadedCount / totalToPreload) * 100));
-        if (loadedCount === totalToPreload) setAppState('ready');
+        if (loadedCount === totalToPreload) {
+          setAppState((prev) => (prev === 'entered' ? 'entered' : 'ready'));
+        }
       };
 
       // Depending on cache, it might already be complete
@@ -152,7 +161,35 @@ export default function V2Page() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      const targetPosition = el.getBoundingClientRect().top + window.scrollY;
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      const duration = 2500; // 2.5 seconds for a cinematic, slow scroll
+      let start: number | null = null;
+
+      // cubic easing in/out
+      const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t + 2) + b;
+      };
+
+      const animation = (currentTime: number) => {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+        
+        window.scrollTo(0, run);
+        
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        } else {
+          window.scrollTo(0, targetPosition);
+        }
+      };
+
+      requestAnimationFrame(animation);
     }
   };
 
@@ -248,32 +285,33 @@ export default function V2Page() {
               </TextAnimate>
             </div>
             
-            <motion.div 
+            <motion.button 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2, duration: 1 }}
-              className="mt-16 animate-bounce text-white/50"
+              onClick={() => scrollToSection('experience')}
+              className="mt-16 animate-bounce text-white/50 hover:text-[#87BCDE] transition-colors cursor-pointer"
             >
               <p className="text-xs tracking-widest uppercase mb-2">Scroll to explore</p>
               <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
-            </motion.div>
+            </motion.button>
           </motion.div>
         </section>
 
         {/* EXPERIENCE SECTION */}
-        <section id="experience" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+        <section id="experience" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 relative">
           <V2Experience />
         </section>
 
         {/* SKILLS SECTION */}
-        <section id="skills" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+        <section id="skills" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 relative">
           <V2Skills />
         </section>
 
         {/* PROJECTS SECTION */}
-        <section id="projects" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8">
+        <section id="projects" className="min-h-[100vh] flex flex-col items-center justify-center py-24 px-4 md:px-8 relative">
           <V2Projects />
         </section>
 

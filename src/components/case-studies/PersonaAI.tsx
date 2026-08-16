@@ -22,7 +22,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           Introduction
         </h2>
-        <p className="text-gray-300 leading-relaxed text-lg">
+        <p className="text-zinc-400 leading-relaxed text-lg">
            So during my 4th Year of my college my team had decided to build a Personalized AI Assistant that can understand the user's behavior and give results accordingly.
            <br /> <br />
            We had implemented reinforcement learning in the backend server, so based on the feedback given by the user it gives the output.
@@ -56,10 +56,10 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <div className="bg-white/5 border border-white/10 rounded-xl p-6 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: project.color }} />
             <h3 className="text-xl font-bold text-white mb-3">Retrieval-Augmented Generation (RAG)</h3>
-            <p className="text-gray-300 leading-relaxed mb-4">
+            <p className="text-zinc-400 leading-relaxed mb-4">
               RAG is a breakthrough AI architecture that bridges the gap between a Large Language Model's fixed training data and your specific, private information. 
             </p>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-zinc-400 leading-relaxed">
               Instead of relying on general knowledge, RAG dynamically searches a targeted Knowledge Graph—such as a user's specific interests, technical skills, or even viewing habits (like Netflix genres)—and injects that exact context into the prompt before the AI answers. This ensures the output is deeply personalized and factually grounded.
             </p>
           </div>
@@ -67,7 +67,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <div className="bg-white/5 border border-white/10 rounded-xl p-6 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: project.color }} />
             <h3 className="text-xl font-bold text-white mb-3">Myers-Briggs Type Indicator (MBTI)</h3>
-            <p className="text-gray-300 leading-relaxed mb-4">
+            <p className="text-zinc-400 leading-relaxed mb-4">
               The MBTI is a widely recognized psychological framework used to categorize how people perceive the world and make decisions. Persona uses a custom assessment to establish a baseline psychological profile of the user. It categorizes personalities across four dichotomies, resulting in eight core cognitive traits:
             </p>
             <ul className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-gray-400">
@@ -90,7 +90,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           About the Project
         </h2>
         
-        <p className="text-gray-300 leading-relaxed text-lg mb-8">
+        <p className="text-zinc-400 leading-relaxed text-lg mb-8">
           Persona constructs a highly detailed, multi-dimensional Knowledge Graph of the user by understanding their psychological traits, professional domains, and specific technical skills.
         </p>
 
@@ -99,7 +99,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <div className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: project.color }} />
             <h3 className="text-2xl font-bold text-white mb-4">Backend Architecture</h3>
-            <p className="text-gray-300 leading-relaxed mb-6">
+            <p className="text-zinc-400 leading-relaxed mb-6">
               The backend is a Node.js and Express server. It consists of three major pillars:
             </p>
             
@@ -136,7 +136,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
                   Neo4j & Graph RAG
                 </h4>
                 <p className="text-gray-400 leading-relaxed mb-2">
-                  This is where the magic happens. All of the extracted nodes are mapped into a Neo4j Graph Database. The structure looks something like this: <code className="text-gray-300 bg-white/10 px-2 py-0.5 rounded ml-1">[User] &rarr; [Domain] &rarr; [Entity]</code> and <code className="text-gray-300 bg-white/10 px-2 py-0.5 rounded ml-1">[User] &rarr; [Trait]</code>.
+                  This is where the magic happens. All of the extracted nodes are mapped into a Neo4j Graph Database. The structure looks something like this: <code className="text-zinc-400 bg-white/10 px-2 py-0.5 rounded ml-1">[User] &rarr; [Domain] &rarr; [Entity]</code> and <code className="text-zinc-400 bg-white/10 px-2 py-0.5 rounded ml-1">[User] &rarr; [Trait]</code>.
                 </p>
                 <p className="text-gray-400 leading-relaxed">
                   When a user asks the AI a question, the backend converts the query into a vector, searches the Neo4j database for the most semantically relevant nodes connected to that specific user, and injects that graph data into the LLM prompt. The result? An AI assistant that doesn't just answer your question, but answers it specifically for you based on your Knowledge Graph.
@@ -149,7 +149,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <div className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-1 h-full" style={{ backgroundColor: project.color }} />
             <h3 className="text-2xl font-bold text-white mb-4">Frontend Implementation</h3>
-            <p className="text-gray-300 leading-relaxed mb-6">
+            <p className="text-zinc-400 leading-relaxed mb-6">
               The frontend was built using Next.js, React 19, and Tailwind CSS.
             </p>
 
@@ -208,7 +208,7 @@ export function PersonaAI({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           The Outcome
         </h2>
-        <p className="text-gray-300 leading-relaxed text-lg mb-8">
+        <p className="text-zinc-400 leading-relaxed text-lg mb-8">
           What started as a pivot from a reinforcement learning concept evolved into a sophisticated implementation of Graph RAG. Persona successfully demonstrates how personal data can be structured into a meaningful graph, allowing an AI assistant to deliver truly personalized, context-aware responses rather than generic answers. It bridges the gap between static user profiles and dynamic, conversational AI.
         </p>
       </section>

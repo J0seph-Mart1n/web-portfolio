@@ -48,7 +48,10 @@ export function V2LoadingScreen({ appState, loadingProgress, setAppState }: V2Lo
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.8 }}
-              onClick={() => setAppState('entered')}
+              onClick={() => {
+                sessionStorage.setItem('hasVisitedV2', 'true');
+                setAppState('entered');
+              }}
               className="px-8 py-3 text-[#87BCDE] font-mono text-sm tracking-[0.2em] uppercase border border-[#87BCDE]/30 bg-transparent hover:bg-[#87BCDE]/5 hover:border-[#87BCDE]/80 transition-all duration-500 shadow-[0_0_15px_rgba(135,188,222,0.1)] hover:shadow-[0_0_30px_rgba(135,188,222,0.4)] relative overflow-hidden group cursor-pointer"
             >
               <span className="relative z-10">Enter Simulation</span>

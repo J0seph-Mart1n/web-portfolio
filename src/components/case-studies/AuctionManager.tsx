@@ -21,7 +21,7 @@ export function AuctionManager({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           Project Overview
         </h2>
-        <p className="text-gray-300 leading-relaxed text-lg">
+        <p className="text-zinc-400 leading-relaxed text-lg">
           AuctionManager has the name suggests is an end-to-end solution for organizing and managing live auctions. The idea came up when we needed to conduct auctions in our church and we didn't had a proper Auction Manager system. It addresses the workflow of an auction event in three distinct phases: Pre-Auction, Live Auction, and Post-Auction. The platform allows organizers to maintain an inventory of items, quickly record fast-paced bids and sales during the live event, and analyze performance and payments post-event via a centralized dashboard. 
         </p>
       </section>
@@ -46,7 +46,7 @@ export function AuctionManager({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           Core Workflows & Views
         </h2>
-        <div className="text-gray-300 leading-relaxed text-lg space-y-4">
+        <div className="text-zinc-400 leading-relaxed text-lg space-y-4">
           <p>
             The frontend is structurally divided into four primary views, each tailored to a specific stage of the auction lifecycle:
           </p>
@@ -64,7 +64,7 @@ export function AuctionManager({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           The Solution & Architecture
         </h2>
-        <div className="text-gray-300 leading-relaxed text-lg space-y-4">
+        <div className="text-zinc-400 leading-relaxed text-lg space-y-4">
           <p>
             I built a robust full-stack web application designed for speed, reliability, and ease of use.
           </p>
@@ -81,7 +81,7 @@ export function AuctionManager({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           The Challenge
         </h2>
-        <p className="text-gray-300 leading-relaxed text-lg">
+        <p className="text-zinc-400 leading-relaxed text-lg">
           Organizing a live auction involves handling large volumes of items and maintaining precise records of sales, bidders, and payment statuses in a high-stress, fast-paced environment. Traditional paper-based or basic spreadsheet methods often lead to human errors, lost data, and difficulties in calculating total revenue or tracking unpaid items after the event concludes. The system needed to be highly responsive to keep up with the auctioneer's pace while ensuring transactional reliability.
         </p>
       </section>
@@ -91,7 +91,7 @@ export function AuctionManager({ project }: { project: ProjectData }) {
           <span className="w-8 h-[2px]" style={{ backgroundColor: project.color }} />
           Results & Impact
         </h2>
-        <p className="text-gray-300 leading-relaxed text-lg">
+        <p className="text-zinc-400 leading-relaxed text-lg">
           The resulting application dramatically streamlines the auction management process. By digitizing the workflow, organizers can catalog items beforehand, record sales with minimal clicks during the chaos of the live event, and instantly generate post-auction reports. This guarantees accurate financial tracking, reduces administrative overhead, and ensures a transparent and smooth experience for both organizers and bidders.
         </p>
       </section>
