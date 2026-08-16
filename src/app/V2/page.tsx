@@ -95,35 +95,9 @@ export default function V2Page() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const projectsEl = document.getElementById("projects");
-      if (!projectsEl) {
-        // Fallback if element not found (e.g. during initial render)
-        const scrollTop = window.scrollY;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
-        setFrameProgress(progress);
-        return;
-      }
-
       const scrollTop = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      
-      const pauseStart = projectsEl.offsetTop;
-      const pauseEnd = pauseStart + projectsEl.offsetHeight - window.innerHeight;
-      const pauseDuration = Math.max(0, pauseEnd - pauseStart);
-
-      let effectiveScroll = scrollTop;
-      let effectiveScrollHeight = scrollHeight - pauseDuration;
-
-      if (scrollTop > pauseStart && scrollTop <= pauseEnd) {
-        // Paused within the projects section
-        effectiveScroll = pauseStart;
-      } else if (scrollTop > pauseEnd) {
-        // Resumed after the projects section
-        effectiveScroll = scrollTop - pauseDuration;
-      }
-
-      const progress = Math.max(0, Math.min(1, effectiveScroll / (effectiveScrollHeight || 1)));
+      const progress = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
       setFrameProgress(progress);
     };
 

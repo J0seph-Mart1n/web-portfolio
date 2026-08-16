@@ -24,7 +24,7 @@ export function V2Projects() {
       color: '#87BCDE', 
       github: 'https://github.com/J0seph-Mart1n/PersonaLocalApp',
       slug: 'persona-ai',
-      image: '/images/Persona/1_Dashboard.png',
+      image: '/images/Persona/Persona_Frame.png',
     },
     {
       title: 'Auction Manager',
@@ -33,7 +33,7 @@ export function V2Projects() {
       color: '#87BCDE',
       github: 'https://github.com/J0seph-Mart1n/AuctionManager',
       slug: 'auction-manager',
-      image: '/images/AuctionManager/1_Dashboard.png',
+      image: '/images/AuctionManager/AuctionManager_Frame.png',
     },
     {
       title: 'Vitality',
@@ -42,7 +42,7 @@ export function V2Projects() {
       color: '#87BCDE',
       github: 'https://github.com/J0seph-Mart1n/Vitality',
       slug: 'vitality',
-      image: '/images/Vitality/1_Dashboard.png',
+      image: '/images/Vitality/Vitality_Frame.png',
     },
   ];
 

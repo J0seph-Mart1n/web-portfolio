@@ -18,7 +18,7 @@ export function V2Experience() {
       description: "Pursued a comprehensive degree in Computer Engineering, developing a strong foundation in algorithms, software architecture, and distributed systems. Participated in multiple hackathons and built scalable web applications."
     },
     {
-      date: "Mar 2025 - Aug 2025",
+      date: "Mar 2025",
       title: "Cognizant Intern",
       role: "Intern",
       description: "Contributed to enterprise-level software solutions, engaging in agile development methodologies and collaborating with cross-functional teams to deliver high-quality code. Gained hands-on experience with modern tech stacks."
