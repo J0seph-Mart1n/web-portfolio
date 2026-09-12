@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og';
 import fs from 'fs/promises';
 import path from 'path';
-import React from 'react';
 
 // Route segment config
 export const runtime = 'nodejs';

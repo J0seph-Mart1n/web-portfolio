@@ -122,14 +122,30 @@ export default function V2Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [frameProgress, setFrameProgress] = useState(0);
-
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
-      setFrameProgress(progress);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
+          
+          const frameIndex = Math.max(1, Math.floor(progress * TOTAL_FRAMES));
+          drawFrame(frameIndex);
+
+          // Preload upcoming frames to ensure smooth playback
+          for (let i = 1; i <= 5; i++) {
+            if (frameIndex + i <= TOTAL_FRAMES) {
+              getImage(frameIndex + i);
+            }
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -143,20 +159,6 @@ export default function V2Page() {
       window.removeEventListener("resize", handleScroll);
     };
   }, []);
-
-  useEffect(() => {
-    const frameIndex = Math.max(1, Math.floor(frameProgress * TOTAL_FRAMES));
-    
-    requestAnimationFrame(() => {
-      drawFrame(frameIndex);
-    });
-    
-    for (let i = 1; i <= 5; i++) {
-      if (frameIndex + i <= TOTAL_FRAMES) {
-        getImage(frameIndex + i);
-      }
-    }
-  }, [frameProgress]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);

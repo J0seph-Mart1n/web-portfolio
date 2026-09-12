@@ -75,27 +75,28 @@ export function V2Experience() {
 
       {/* Horizontal Timeline */}
       <div className="relative w-full mb-12 md:mb-16">
-        {/* Timeline Lines Wrapper */}
-        <div 
-          className="absolute top-[40px]" 
-          style={{ 
-            left: `${(1 / (2 * data.length)) * 100}%`, 
-            width: `${(1 - 1 / data.length) * 100}%` 
-          }}
-        >
-          {/* Background Line */}
-          <div className="absolute top-3 left-0 w-full h-[2px] bg-white/10 rounded-full"></div>
-          
-          {/* Active Line */}
-          <motion.div 
-            className="absolute top-3 left-0 h-[4px] bg-[#87BCDE] rounded-full shadow-[0_0_10px_rgba(135,188,222,0.8)]"
-            animate={{ width: `${activeLineWidth}%` }}
-            transition={{ duration: isAutoPlaying ? 0 : 0.5, ease: "easeInOut" }}
-          />
-        </div>
-
-        {/* Nodes */}
+        {/* Nodes and Lines Wrapper */}
         <div className="relative flex justify-between w-full">
+          
+          {/* Timeline Lines Wrapper - mathematically aligned to the Dots (top 48px, height 20px) */}
+          <div 
+            className="absolute top-[58px] h-5 z-0" 
+            style={{ 
+              left: `${(1 / (2 * data.length)) * 100}%`, 
+              width: `${(1 - 1 / data.length) * 100}%` 
+            }}
+          >
+            {/* Background Line */}
+            <div className="absolute left-0 w-full h-[2px] bg-white/10 rounded-full top-1/2 -translate-y-1/2"></div>
+            
+            {/* Active Line */}
+            <motion.div 
+              className="absolute left-0 h-[4px] bg-[#87BCDE] rounded-full shadow-[0_0_10px_rgba(135,188,222,0.8)] top-1/2 -translate-y-1/2"
+              animate={{ width: `${activeLineWidth}%` }}
+              transition={{ duration: isAutoPlaying ? 0 : 0.5, ease: "easeInOut" }}
+            />
+          </div>
+
           {data.map((item, index) => {
             const isActive = index === activeIndex;
             const isPast = index < activeIndex;
@@ -107,13 +108,13 @@ export function V2Experience() {
                 className="flex flex-col items-center cursor-pointer group w-1/3"
               >
                 {/* Year */}
-                <div className={`text-xs md:text-sm font-mono mb-4 transition-colors duration-300 ${isActive ? 'text-[#87BCDE]' : 'text-zinc-500 group-hover:text-zinc-300'}`}>
-                  {item.date}
+                <div className={`h-12 flex items-end justify-center pb-4 text-xs md:text-sm font-mono transition-colors duration-300 ${isActive ? 'text-[#87BCDE]' : 'text-zinc-500 group-hover:text-zinc-300'}`}>
+                  <span className="text-center">{item.date}</span>
                 </div>
 
                 {/* Dot */}
                 <motion.div 
-                  className={`w-5 h-5 rounded-full border-4 z-10 transition-colors duration-300 ${
+                  className={`w-5 h-5 rounded-full border-4 z-10 transition-colors duration-300 shrink-0 ${
                     isActive ? 'bg-[#87BCDE] border-black shadow-[0_0_15px_rgba(135,188,222,1)] scale-125' : 
                     isPast ? 'bg-[#87BCDE] border-black' : 
                     'bg-black border-zinc-600 group-hover:border-zinc-400'
