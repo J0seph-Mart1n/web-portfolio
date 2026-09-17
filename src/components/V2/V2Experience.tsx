@@ -15,19 +15,33 @@ export function V2Experience() {
       date: "2021 - 2025",
       title: "AISSMS College of Engineering",
       role: "B.E. in Computer Engineering",
-      description: "Pursued a comprehensive degree in Computer Engineering, developing a strong foundation in algorithms, software architecture, and distributed systems. Participated in multiple hackathons and built scalable web applications."
+      description: [
+        "Pursued a comprehensive degree with a strong focus on Backend Development, Data Science, and Machine Learning.",
+        "Co-headed the CIPHERS programming club, managing and conducting events to boost coding culture among students.",
+        "Built diverse projects ranging from Python/Selenium automation and predictive ML models to full-stack web applications using Flask and Svelte."
+      ]
     },
     {
       date: "Mar 2025",
       title: "Cognizant Intern",
       role: "Intern",
-      description: "Contributed to enterprise-level software solutions, engaging in agile development methodologies and collaborating with cross-functional teams to deliver high-quality code. Gained hands-on experience with modern tech stacks."
+      description: [
+        "Mastered the Automation Testing Lifecycle, utilizing Java, Selenium, log4j, Cucumber BDD, and Gherkin for robust test design and execution.",
+        "Led a QA team to automate testing for a District Website, successfully verifying complex features like event booking and dynamic seat selection.",
+        "Gained hands-on experience in agile workflows, focusing on code integration, version control collaboration, and efficient work distribution.",
+        "Developed strong professional soft skills, including leadership, conflict management, public speaking, and team collaboration."
+      ]
     },
     {
       date: "Aug 2025 - Present",
       title: "Cognizant PAT",
       role: "Programmer Analyst Trainee",
-      description: "Building scalable web applications and AI integrations, focusing on performance optimization, robust backend systems, and modern frontend architectures to create seamless user experiences."
+      description: [
+        "Automated comprehensive test cases across various projects using Python, Selenium, and Robot Framework by thoroughly analyzing requirements and designing robust test steps.",
+        "Executed test scripts both locally and via Jenkins to ensure cross-system compatibility, seamlessly pushing results and metrics to Jira and qTest.",
+        "Gained deep insights into enterprise project lifecycle management, actively participating in client meetings, daily status calls, and progress reporting.",
+        "Ensured project deliverables consistently met client expectations and strict deadlines through effective team collaboration and agile workflows."
+      ]
     }
   ];
 
@@ -157,9 +171,17 @@ export function V2Experience() {
               {data[activeIndex].role}
             </div>
             
-            <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-4xl">
-              {data[activeIndex].description}
-            </p>
+            <div className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-4xl">
+              {Array.isArray(data[activeIndex].description) ? (
+                <ul className="list-disc list-inside space-y-2 marker:text-[#87BCDE]">
+                  {data[activeIndex].description.map((desc, i) => (
+                    <li key={i}>{desc}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>{data[activeIndex].description}</p>
+              )}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>

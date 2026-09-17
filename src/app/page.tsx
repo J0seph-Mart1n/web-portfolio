@@ -58,7 +58,18 @@ export default function V2Page() {
       observers.push(observer);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
+    // Fallback: If the user scrolls to the absolute bottom of the page, forcefully activate the last section
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+        setActiveSection("socials");
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      observers.forEach((o) => o.disconnect());
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const preloadImages = () => {

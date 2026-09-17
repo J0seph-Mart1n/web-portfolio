@@ -5,8 +5,11 @@ import {
   SiTailwindcss, SiPython, SiFastapi, SiGo, 
   SiNeo4J, SiPostgresql, SiMongodb, SiDocker, 
   SiFirebase, SiOllama,
-  SiJest, SiCypress
+  SiSqlite,
+  SiSelenium, SiRobotframework, SiJirasoftware, SiJenkins
 } from 'react-icons/si';
+import { TbBrandReactNative } from "react-icons/tb";
+import { FaJava } from "react-icons/fa";
 
 const skillCategories = [
   {
@@ -16,6 +19,7 @@ const skillCategories = [
       { name: 'Next.js', Icon: SiNextdotjs },
       { name: 'TypeScript', Icon: SiTypescript, color: '#3178C6' },
       { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
+      { name: "React Native", Icon: TbBrandReactNative, color: "#61DAFB" },
     ]
   },
   {
@@ -36,13 +40,17 @@ const skillCategories = [
       { name: "Firebase", Icon: SiFirebase, color: '#FFCA28' },
       { name: "Docker", Icon: SiDocker, color: '#2496ED' },
       { name: "Ollama", Icon: SiOllama },
+      { name: "Sqlite", Icon: SiSqlite, color: '#3F7D98' },
     ]
   },
   {
     title: "Testing",
     skills: [
-      { name: "Jest", Icon: SiJest, color: "#C21325" },
-      { name: "Cypress", Icon: SiCypress, color: "#17202C" },
+      { name: "Selenium", Icon: SiSelenium, color: "#43B02A"},
+      { name: "Robot Framework", Icon: SiRobotframework, color: "#F25A17"},
+      { name: "Jira", Icon: SiJirasoftware, color: "#003366"},
+      { name: "Jenkins", Icon: SiJenkins, color: "#dce9f6ff"},
+      { name: "Java", Icon: FaJava, color: "#5382A1"},
     ]
   }
 ];
