@@ -62,7 +62,7 @@ jmkl0987@gmail.com &nbsp;&bull;&nbsp; +91-9172232178 &nbsp;&bull;&nbsp; <a href=
 </div>
 
 ## Summary
-Programmer Analyst at Cognizant working as a Automation Tester. I also specialize in modern web and mobile applications, Testing, and AI integrations. Proficient in Backend Development, Automation Testing, and full-stack development, with hands-on experience orchestrating real-time data flows, automation testing pipelines and AI integrations.
+Programmer Analyst at Cognizant working as an Automation Tester. I also specialize in modern web and mobile applications, Testing, and AI integrations. Proficient in Backend Development, Automation Testing, and full-stack development, with hands-on experience orchestrating real-time data flows, automation testing pipelines and AI integrations.
 
 ## Education
 
