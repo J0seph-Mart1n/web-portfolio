@@ -1,92 +1,99 @@
 import React from 'react';
 import { motion } from "motion/react";
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { Mail, FileDown } from 'lucide-react';
 
 export function V2Socials() {
   const socials = [
     {
       name: 'GitHub',
+      label: 'SOURCE / J0seph-Mart1n',
       url: 'https://github.com/J0seph-Mart1n',
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-        </svg>
-      )
+      icon: <FaGithub size={20} />
     },
     {
       name: 'LinkedIn',
+      label: 'NETWORK / joseph-martin',
       url: 'https://www.linkedin.com/in/joseph-martin-656360228/',
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-          <rect x="2" y="9" width="4" height="12"></rect>
-          <circle cx="4" cy="4" r="2"></circle>
-        </svg>
-      )
+      icon: <FaLinkedin size={20} />
     },
     {
       name: 'Twitter',
+      label: 'FEED / @JoSEPhMaRtin001',
       url: 'https://x.com/JoSEPhMaRtin001',
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-        </svg>
-      )
+      icon: <FaTwitter size={20} />
     },
     {
       name: 'Email',
+      label: 'TRANSMIT / jmkl0987@gmail.com',
       url: 'mailto:jmkl0987@gmail.com',
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-          <polyline points="22,6 12,13 2,6"></polyline>
-        </svg>
-      )
+      icon: <Mail size={20} />
     },
-    {
-      name: 'Resume',
-      url: '/resume.pdf',
-      download: "Joseph_Martin_Resume.pdf",
-      icon: (
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-      )
-    }
   ];
 
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: false, margin: "-50px" }}
-      className="flex flex-col items-center gap-8 py-16 px-6 bg-zinc-900/60 backdrop-blur-xl border-t border-white/10 w-full"
+      className="w-full bg-[#FFFFF8] border-t-2 border-black py-16 px-6 relative"
     >
-      <div className="text-center">
-        <h3 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Let's Connect</h3>
-        <p className="font-sans text-zinc-400 max-w-md mx-auto text-sm md:text-base">
-          Feel free to reach out for collaborations, opportunities, or just a friendly chat!
-        </p>
-      </div>
-      
-      <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-        {socials.map((social, index) => (
-          <motion.a
-            key={social.name}
-            href={social.url}
-            {...(social.download ? { download: social.download } : { target: "_blank", rel: "noopener noreferrer" })}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-            className="group flex justify-center items-center w-16 h-16 md:w-15 md:h-15 rounded-full bg-white/5 border border-white/10 hover:bg-[#87BCDE]/10 hover:border-[#87BCDE]/50 hover:scale-110 shadow-lg hover:shadow-[0_0_20px_rgba(135,188,222,0.3)] transition-all duration-300"
-          >
-            <div className="text-zinc-400 group-hover:text-[#87BCDE] transition-colors duration-300">
-              {social.icon}
-            </div>
-          </motion.a>
-        ))}
+      <div className="max-w-4xl mx-auto flex flex-col items-center">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold mb-2">
+            <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black" />
+            COMMUNICATION CHANNELS // VECTOR TERMINAL
+          </div>
+          <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black">
+            LET'S CONNECT
+          </h3>
+          <div className="w-20 h-1.5 bg-[#FFEE00] border border-black mx-auto mt-3" />
+          <p className="font-sans text-neutral-700 max-w-md mx-auto text-sm md:text-base mt-4 font-medium">
+            Open for full-time engineering roles, distributed systems projects, and cutting-edge AI collaborations.
+          </p>
+        </div>
+        
+        {/* Social Link Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl mb-8">
+          {socials.map((social) => (
+            <a
+              key={social.name}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 bg-[#FAF7E8] hover:bg-[#FFEE00] border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-[5px_5px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 text-black group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <span className="shrink-0 group-hover:scale-110 transition-transform">{social.icon}</span>
+                <span className="font-mono text-xs font-bold uppercase">{social.name}</span>
+              </div>
+              <span className="font-mono text-[10px] text-neutral-500 group-hover:text-black font-semibold">
+                &rarr;
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* Primary Resume Download Button */}
+        <a
+          href="/resume.pdf"
+          download="Joseph_Martin_Resume.pdf"
+          className="flex items-center gap-3 px-8 py-4 bg-[#FFEE00] hover:bg-[#FAFF00] text-black font-mono font-black text-sm uppercase tracking-widest border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
+        >
+          <FileDown size={20} />
+          <span>DOWNLOAD CURRICULUM VITAE (PDF)</span>
+        </a>
+
+        {/* Technical Footer Signature */}
+        <div className="mt-16 pt-6 border-t border-black/15 w-full flex flex-col sm:flex-row items-center justify-between font-mono text-[11px] text-neutral-600 gap-2">
+          <span>JOSEPH MARTIN &bull; ARCHITECTURAL SPECIFICATION 2026</span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 bg-[#FFEE00] border border-black inline-block"></span>
+            ALL SYSTEMS NOMINAL
+          </span>
+        </div>
       </div>
     </motion.div>
   );

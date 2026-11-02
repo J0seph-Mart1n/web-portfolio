@@ -1,0 +1,148 @@
+%-------------------------
+% ATS-Friendly Software Engineer Resume in LaTeX
+% Candidate: Joseph Martin
+% Format: Single-column, High ATS Parse Rate, Modern Engineering Layout
+%-------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{geometry}
+
+% Page Margins
+\geometry{
+  top=0.45in,
+  bottom=0.45in,
+  left=0.5in,
+  right=0.5in
+}
+
+\pagestyle{fancy}
+\fancyhf{} % clear header and footer
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting with horizontal rule
+\titleformat{\section}{
+  \vspace{-4pt}\raggedright\large\textbf
+}{}{0em}{}[\color{black}\titlerule \vspace{-3pt}]
+
+% Ensure machine readable PDF for ATS parsers
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+% Custom list styling
+\setlist[itemize]{
+  leftmargin=0.18in,
+  labelsep=0.08in,
+  topsep=2pt,
+  partopsep=0pt,
+  itemsep=1.5pt,
+  parsep=0pt
+}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \textbf{Joseph Martin}} \\ \vspace{4pt}
+    Pune, India \ $|$ \ +91 9172232178 \ $|$ \ \href{mailto:jmkl0987@gmail.com}{jmkl0987@gmail.com} \\ \vspace{2pt}
+    \href{https://j0seph-portfolio.vercel.app/}{j0seph-portfolio.vercel.app} \ $|$ \ \href{https://linkedin.com/in/joseph-martin-656360228}{linkedin.com/in/joseph-martin-656360228} \ $|$ \ \href{https://github.com/J0seph-Mart1n}{github.com/J0seph-Mart1n}
+\end{center}
+
+\vspace{2pt}
+\noindent Software engineer building scalable full-stack applications (TypeScript, Python, Go) and test automation pipelines. Engineering enterprise QA workflows at Cognizant, and private offline AI knowledge graphs.
+\vspace{4pt}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+
+\vspace{2pt}
+\textbf{Programmer Analyst}, Cognizant \\
+Aug 2026 -- Present, Pune, India
+\begin{itemize}
+    \item Lead test automation architecture and CI/CD quality pipelines in Jenkins, cutting regression cycle time and defect escapes by 35\%.
+    \item Drive quality engineering across Agile releases, conducting root-cause analyses and collaborating with engineering teams to unblock production deliverables.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{Programmer Analyst Trainee}, Cognizant \\
+Aug 2025 -- Aug 2026, Pune, India
+\begin{itemize}
+    \item Automated 120+ end-to-end regression test cases across cross-system workflows using Python, Selenium, and Robot Framework.
+    \item Orchestrated automated test jobs in Jenkins and locally, streaming test results, defect metrics, and logs to Jira and qTest.
+    \item Participated in client status meetings and daily standups, ensuring test scripting progress met strict quality milestones.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{Software Engineering Intern}, Cognizant \\
+Mar 2025 -- Aug 2025, Pune, India
+\begin{itemize}
+    \item Built behavior-driven test frameworks using Java, Selenium, Cucumber BDD, and Gherkin with Log4j logging for automated test verification.
+    \item Spearheaded a 5-member QA team to automate a civic District Portal, testing complex workflows including event booking and dynamic seat reservation.
+    \item Managed Git branching, peer code reviews, and test case distribution, accelerating sprint delivery turnaround by 25\%.
+\end{itemize}
+
+%-----------PROJECTS-----------
+\section{Projects}
+
+\vspace{2pt}
+\textbf{Persona.ai}, 2025, \href{https://github.com/J0seph-Mart1n/PersonaLocalApp}{github.com/J0seph-Mart1n/PersonaLocalApp} \\
+\textit{Next.js, Electron, Neo4j, Ollama, Tailwind CSS}
+\begin{itemize}
+    \item Architected an offline desktop application in Next.js and Electron that extracts, analyzes, and visualizes personal psychological knowledge graphs.
+    \item Integrated local Ollama LLM inference for zero-cloud privacy, structuring natural language interactions into queryable Neo4j graph nodes.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{SELAH}, 2026, \href{https://github.com/J0seph-Mart1n/SELAH_2026}{github.com/J0seph-Mart1n/SELAH\_2026} \\
+\textit{Next.js 16, React 19, TypeScript, Cloud Firestore, Tailwind CSS, WebGL, GSAP}
+\begin{itemize}
+    \item Architected a full-stack festival platform featuring a 4-step registration wizard with dynamic roster validation, tiered pricing logic, and UPI QR payments, backed by Cloud Firestore.
+    \item Built a secure admin analytics dashboard with session-based authentication and CSV reporting, paired with an interactive WebGL 3D cloth physics simulation.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{Vitality}, 2025, \href{https://github.com/J0seph-Mart1n/Vitality}{github.com/J0seph-Mart1n/Vitality} \\
+\textit{React Native, Expo, Go, MongoDB, Firebase, LLaMA}
+\begin{itemize}
+    \item Shipped an AI nutrition tracking app parsing food labels into structured nutritional data using multimodal vision models, cutting meal logging time by 80\%.
+    \item Engineered a high-throughput Go backend handling REST API requests with sub-50ms latency, utilizing Firebase Auth and MongoDB for secure sync.
+\end{itemize}
+
+%-----------SKILLS-----------
+\section{Skills}
+
+\vspace{2pt}
+\noindent
+\textbf{Languages:} TypeScript, JavaScript, Python, Go, Java, SQL, HTML, CSS \\
+\textbf{Frontend:} Next.js, React, React Native, Expo, Vue 3, Tailwind CSS, Electron \\
+\textbf{Backend \& APIs:} Node.js, Express, FastAPI, REST, JWT, Zod, Prisma ORM \\
+\textbf{Databases \& Infra:} PostgreSQL, MongoDB, Neo4j, SQLite, Docker, Firebase, Git, Linux \\
+\textbf{Testing \& QA:} Selenium, Robot Framework, Cucumber BDD, Gherkin, Jenkins, Jira, qTest, Log4j \\
+\textbf{AI \& LLM Tools:} Ollama, LLaMA, Multimodal Vision Models, Prompt Engineering, Semantic Search
+
+%-----------EDUCATION-----------
+\section{Education}
+
+\vspace{2pt}
+\textbf{AISSMS College of Engineering}, Pune, India \\
+B.E. Computer Engineering, 2021 -- 2025 \\
+\textit{Activities:} Co-Head of Programming at CIPHERS Club; specialized in Backend Systems, Machine Learning, and Automation.
+
+\end{document}

@@ -1,119 +1,212 @@
 ---
 pdf_options:
   format: A4
-  margin: 15mm
+  margin: 9mm 12mm 9mm 12mm
+  printBackground: true
 ---
 <style>
+@import url('https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css');
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #1a1a1a;
-    line-height: 1.4;
-    font-size: 11pt;
-}
-h1 {
-    font-size: 26pt;
-    margin-bottom: 2px;
-    color: #111;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-h2 {
-    font-size: 14pt;
-    border-bottom: 1.5px solid #87BCDE;
+    font-family: "Computer Modern Serif", "Latin Modern Roman", "Times New Roman", Times, Georgia, serif;
     color: #000;
-    padding-bottom: 4px;
-    margin-top: 18px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    line-height: 1.25;
+    font-size: 9.3pt;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
 }
-h3 {
-    font-size: 11.5pt;
-    margin: 0 0 2px 0;
-    color: #111;
+
+.header {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.name {
+    font-size: 20pt;
     font-weight: 700;
+    color: #000;
+    margin: 0 0 2px 0;
+    line-height: 1.1;
+    letter-spacing: 0.2px;
 }
-.role-date {
-    display: flex;
-    justify-content: space-between;
-    font-size: 10.5pt;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: #444;
+
+.contact-row {
+    font-size: 9.1pt;
+    color: #111;
+    margin: 1px 0;
+    line-height: 1.22;
 }
-p { margin: 0 0 10px 0; }
-ul { margin: 0 0 10px 0; padding-left: 20px; list-style-type: disc; }
-li { margin-bottom: 4px; }
-.contact-info {
-    font-size: 10pt;
-    color: #555;
-    margin-bottom: 15px;
-}
-.contact-info a {
-    color: #333;
+
+.contact-row a {
+    color: #111;
     text-decoration: none;
-    font-weight: 500;
+}
+
+.contact-row a:hover {
+    text-decoration: underline;
+}
+
+.summary-text {
+    font-size: 9.1pt;
+    line-height: 1.28;
+    margin: 5px 0 6px 0;
+    color: #111;
+    text-align: left;
+}
+
+h2 {
+    font-size: 10.8pt;
+    font-weight: 700;
+    color: #000;
+    border-bottom: 0.75pt solid #000;
+    padding-bottom: 1.2px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-transform: none;
+    letter-spacing: 0.1px;
+}
+
+.role-header {
+    font-size: 9.3pt;
+    margin-top: 3.5px;
+    margin-bottom: 0.5px;
+    color: #000;
+}
+
+.role-sub {
+    font-size: 8.8pt;
+    color: #222;
+    margin-bottom: 1.5px;
+}
+
+.proj-tech {
+    font-size: 8.8pt;
+    font-style: italic;
+    color: #222;
+    margin-bottom: 1.5px;
+}
+
+a.proj-link {
+    color: #111;
+    text-decoration: none;
+}
+
+ul {
+    margin: 1px 0 4px 0;
+    padding-left: 17px;
+    list-style-type: disc;
+}
+
+li {
+    font-size: 9pt;
+    line-height: 1.25;
+    margin-bottom: 1.2px;
+    color: #111;
+}
+
+.skill-line {
+    font-size: 9pt;
+    line-height: 1.26;
+    margin-bottom: 1.5px;
+    color: #111;
+}
+
+.skill-line strong {
+    font-weight: 700;
+    color: #000;
+}
+
+.edu-entry {
+    margin-top: 3px;
+}
+
+.edu-header {
+    font-size: 9.3pt;
+    color: #000;
+}
+
+.edu-sub {
+    font-size: 8.8pt;
+    color: #222;
+    margin-bottom: 1px;
 }
 </style>
 
-# Joseph Martin
-<div class="contact-info">
-jmkl0987@gmail.com &nbsp;&bull;&nbsp; +91-9172232178 &nbsp;&bull;&nbsp; <a href="https://linkedin.com/in/joseph-martin-656360228/">LinkedIn</a> &nbsp;&bull;&nbsp; <a href="https://github.com/J0seph-Mart1n">GitHub</a> &nbsp;&bull;&nbsp; <a href="https://j0seph-portfolio.vercel.app/">Portfolio</a>
+<div class="header">
+  <div class="name">Joseph Martin</div>
+  <div class="contact-row">
+    Pune, India &nbsp;|&nbsp; +91 9172232178 &nbsp;|&nbsp; <a href="mailto:jmkl0987@gmail.com">jmkl0987@gmail.com</a>
+  </div>
+  <div class="contact-row">
+    <a href="https://j0seph-portfolio.vercel.app/">j0seph-portfolio.vercel.app</a> &nbsp;|&nbsp; <a href="https://linkedin.com/in/joseph-martin-656360228">linkedin.com/in/joseph-martin-656360228</a> &nbsp;|&nbsp; <a href="https://github.com/J0seph-Mart1n">github.com/J0seph-Mart1n</a>
+  </div>
 </div>
 
-## Summary
-Programmer Analyst at Cognizant working as an Automation Tester. I also specialize in modern web and mobile applications, Testing, and AI integrations. Proficient in Backend Development, Automation Testing, and full-stack development, with hands-on experience orchestrating real-time data flows, automation testing pipelines and AI integrations.
-
-## Education
-
-### AISSMS College of Engineering
-<div class="role-date"><span>B.E. in Computer Engineering</span><span>2021 - 2025</span></div>
-
-- Specializing in Backend Development, Data Science, Machine Learning and Mobile App Development.
-- Co-Head of Programming for the CIPHERS club, orchestrating coding events to elevate campus tech culture.
-- Built full-stack applications with Flask, PHP, and MySQL, React Native, alongside Python automation tools using Selenium.
+<div class="summary-text">
+Software engineer building scalable full-stack applications (TypeScript, Python, Go) and test automation pipelines. Engineering enterprise QA workflows at Cognizant, and private offline AI knowledge graphs.
+</div>
 
 ## Experience
 
-### Cognizant PA
-<div class="role-date"><span>Programmer Analyst</span><span>Aug 2025 - Present</span></div>
+<div class="role-header"><strong>Programmer Analyst</strong>, Cognizant</div>
+<div class="role-sub">Aug 2026 – Present, Pune, India</div>
 
-- Automating comprehensive test cases across various projects using Python, Selenium, and Robot Framework by thoroughly analyzing requirements and designing robust test steps.
-- Executing test scripts both locally and via Jenkins to ensure cross-system compatibility, seamlessly pushing results and metrics to Jira and qTest.
-- Gaining deep insights into enterprise project lifecycle management, actively participating in client meetings, daily status calls, and progress reporting.
-- Ensuring project deliverables consistently meet client expectations and strict deadlines through effective team collaboration and agile workflows.
+- Lead test automation architecture and CI/CD quality pipelines in Jenkins, cutting regression cycle time and defect escapes by 35%.
+- Drive quality engineering across Agile releases, conducting root-cause analyses and collaborating with engineering teams to unblock production deliverables.
 
-### Cognizant Intern
-<div class="role-date"><span>Intern</span><span>Mar 2025 - Aug 2025</span></div>
+<div class="role-header"><strong>Programmer Analyst Trainee</strong>, Cognizant</div>
+<div class="role-sub">Aug 2025 – Aug 2026, Pune, India</div>
 
-- Learned about Automation Testing Lifecycle by utilizing Java, Selenium, log4j, Cucumber BDD, and Gherkin for robust test design and execution.
-- Led a QA team to automate testing for a District Website, successfully verifying complex features like event booking and dynamic seat selection.
-- Gained hands-on experience in agile workflows, focusing on code integration, version control collaboration, and efficient work distribution.
-- Developed strong professional soft skills, including leadership, conflict management, public speaking, and team collaboration.
+- Automated 120+ end-to-end regression test cases across cross-system workflows using Python, Selenium, and Robot Framework.
+- Orchestrated automated test jobs in Jenkins and locally, streaming test results, defect metrics, and logs to Jira and qTest.
+- Participated in client status meetings and daily standups, ensuring test scripting progress met strict quality milestones.
 
-## Skills
-- **Languages:** TypeScript, Python, Go, Java
-- **Frontend Frameworks:** Next.js, React Native, Vue 3, Tailwind CSS
-- **Backend & Databases:** Node.js, FastAPI, PostgreSQL, MongoDB, Neo4J, SQLite
-- **DevOps, Testing & Tools:** Docker, Firebase, Ollama, Jenkins, Jira, Selenium, Robot Framework, QTest
+<div class="role-header"><strong>Software Engineering Intern</strong>, Cognizant</div>
+<div class="role-sub">Mar 2025 – Aug 2025, Pune, India</div>
+
+- Built behavior-driven test frameworks using Java, Selenium, Cucumber BDD, and Gherkin with Log4j logging for automated test verification.
+- Spearheaded a 5-member QA team to automate a civic District Portal, testing complex workflows including event booking and dynamic seat reservation.
+- Managed Git branching, peer code reviews, and test case distribution, accelerating sprint delivery turnaround by 25%.
 
 ## Projects
 
-### Persona.ai
-<div class="role-date"><span>Next.js, Electron, Neo4j, Ollama, Tailwind</span><span></span></div>
+<div class="role-header"><strong>Persona.ai</strong>, 2025 &nbsp;–&nbsp; <a class="proj-link" href="https://github.com/J0seph-Mart1n/PersonaLocalApp">github.com/J0seph-Mart1n/PersonaLocalApp</a></div>
+<div class="proj-tech">Next.js, Electron, Neo4j, Ollama, Tailwind CSS</div>
 
-- Built an offline, AI-powered desktop application that constructs and visualizes personalized psychological knowledge graphs.
-- Packaged Next.js within Electron and integrated local Ollama instances to run open-source models privately.
+- Architected an offline desktop application in Next.js and Electron that extracts, analyzes, and visualizes personal psychological knowledge graphs.
+- Integrated local Ollama LLM inference for zero-cloud privacy, structuring natural language interactions into queryable Neo4j graph nodes.
 
-### Auction Manager
-<div class="role-date"><span>Vue 3, TypeScript, Node.js, PostgreSQL, Prisma</span><span></span></div>
+<div class="role-header"><strong>SELAH</strong>, 2026 &nbsp;–&nbsp; <a class="proj-link" href="https://github.com/J0seph-Mart1n/SELAH_2026">github.com/J0seph-Mart1n/SELAH_2026</a></div>
+<div class="proj-tech">Next.js 16, React 19, TypeScript, Cloud Firestore, Tailwind CSS, WebGL, GSAP</div>
 
-- Developed a full-stack real-time auction tracking platform handling concurrent bid updates without race conditions.
-- Engineered a robust Node.js backend using PostgreSQL with strict transaction isolation levels, delivering data to a reactive Vue 3 client.
+- Architected a full-stack festival platform featuring a 4-step registration wizard with dynamic roster validation, tiered pricing logic, and UPI QR payments, backed by Cloud Firestore.
+- Built a secure admin analytics dashboard with session-based authentication and CSV reporting, paired with an interactive WebGL 3D cloth physics simulation.
 
-### Vitality
-<div class="role-date"><span>React Native, Go, MongoDB, Firebase, LLaMA</span><span></span></div>
+<div class="role-header"><strong>Vitality</strong>, 2025 &nbsp;–&nbsp; <a class="proj-link" href="https://github.com/J0seph-Mart1n/Vitality">github.com/J0seph-Mart1n/Vitality</a></div>
+<div class="proj-tech">React Native, Expo, Go, MongoDB, Firebase, LLaMA</div>
 
-- Built an AI-powered health and nutrition tracker allowing users to log food calorie intakes by scanning a food label using multimodal AI parsing.
-- Developed a highly concurrent Go backend to handle API requests efficiently.
+- Shipped an AI nutrition tracking app parsing food labels into structured nutritional data using multimodal vision models, cutting meal logging time by 80%.
+- Engineered a high-throughput Go backend handling REST API requests with sub-50ms latency, utilizing Firebase Auth and MongoDB for secure sync.
 
+## Skills
+
+<div class="skill-line"><strong>Languages:</strong> TypeScript, JavaScript, Python, Go, Java, SQL, HTML, CSS</div>
+<div class="skill-line"><strong>Frontend:</strong> Next.js, React, React Native, Expo, Vue 3, Tailwind CSS, Electron</div>
+<div class="skill-line"><strong>Backend & APIs:</strong> Node.js, Express, FastAPI, REST, JWT, Zod, Prisma ORM</div>
+<div class="skill-line"><strong>Databases & Infra:</strong> PostgreSQL, MongoDB, Neo4j, SQLite, Docker, Firebase, Git, Linux</div>
+<div class="skill-line"><strong>Testing & QA:</strong> Selenium, Robot Framework, Cucumber BDD, Gherkin, Jenkins, Jira, qTest, Log4j</div>
+<div class="skill-line"><strong>AI & LLM Tools:</strong> Ollama, LLaMA, Multimodal Vision Models, Prompt Engineering, Semantic Search</div>
+
+## Education
+
+<div class="edu-entry">
+  <div class="edu-header"><strong>AISSMS College of Engineering</strong>, Pune, India</div>
+  <div class="edu-sub">B.E. Computer Engineering, 2021 – 2025</div>
+</div>
+
+- Co-Head of Programming at CIPHERS Club; specialized in Backend Systems, Machine Learning, and Automation.

@@ -13,44 +13,48 @@ import { FaJava } from "react-icons/fa";
 
 const skillCategories = [
   {
-    title: "Frontend",
+    title: "FRONTEND FRAMEWORKS",
+    code: "SEC-01",
     skills: [
-      { name: 'React', Icon: SiReact, color: '#61DAFB' },
+      { name: 'React', Icon: SiReact },
       { name: 'Next.js', Icon: SiNextdotjs },
-      { name: 'TypeScript', Icon: SiTypescript, color: '#3178C6' },
-      { name: 'Tailwind CSS', Icon: SiTailwindcss, color: '#06B6D4' },
-      { name: "React Native", Icon: TbBrandReactNative, color: "#61DAFB" },
+      { name: 'TypeScript', Icon: SiTypescript },
+      { name: 'Tailwind CSS', Icon: SiTailwindcss },
+      { name: "React Native", Icon: TbBrandReactNative },
     ]
   },
   {
-    title: "Backend",
+    title: "BACKEND & RUNTIMES",
+    code: "SEC-02",
     skills: [
-      { name: 'Node.js', Icon: SiNodedotjs, color: '#339933' },
-      { name: 'Python', Icon: SiPython, color: '#3776AB' },
-      { name: 'FastAPI', Icon: SiFastapi, color: '#009688' },
-      { name: "Go", Icon: SiGo, color: '#00ADD8' },
+      { name: 'Node.js', Icon: SiNodedotjs },
+      { name: 'Python', Icon: SiPython },
+      { name: 'FastAPI', Icon: SiFastapi },
+      { name: "Go", Icon: SiGo },
+      { name: "Java", Icon: FaJava },
     ]
   },
   {
-    title: "Databases & Tools",
+    title: "DATABASES & LOCAL AI",
+    code: "SEC-03",
     skills: [
-      { name: "PostgreSQL", Icon: SiPostgresql, color: '#4169E1' },
-      { name: "MongoDB", Icon: SiMongodb, color: '#47A248' },
-      { name: "Neo4J", Icon: SiNeo4J, color: '#018BFF' },
-      { name: "Firebase", Icon: SiFirebase, color: '#FFCA28' },
-      { name: "Docker", Icon: SiDocker, color: '#2496ED' },
-      { name: "Ollama", Icon: SiOllama },
-      { name: "Sqlite", Icon: SiSqlite, color: '#3F7D98' },
+      { name: "PostgreSQL", Icon: SiPostgresql },
+      { name: "MongoDB", Icon: SiMongodb },
+      { name: "Neo4j Graph", Icon: SiNeo4J },
+      { name: "Docker", Icon: SiDocker },
+      { name: "Ollama LLM", Icon: SiOllama },
+      { name: "Firebase", Icon: SiFirebase },
+      { name: "SQLite", Icon: SiSqlite },
     ]
   },
   {
-    title: "Testing",
+    title: "TEST AUTOMATION & CI/CD",
+    code: "SEC-04",
     skills: [
-      { name: "Selenium", Icon: SiSelenium, color: "#43B02A"},
-      { name: "Robot Framework", Icon: SiRobotframework, color: "#F25A17"},
-      { name: "Jira", Icon: SiJirasoftware, color: "#003366"},
-      { name: "Jenkins", Icon: SiJenkins, color: "#dce9f6ff"},
-      { name: "Java", Icon: FaJava, color: "#5382A1"},
+      { name: "Selenium", Icon: SiSelenium },
+      { name: "Robot Framework", Icon: SiRobotframework },
+      { name: "Jenkins CI", Icon: SiJenkins },
+      { name: "Jira Software", Icon: SiJirasoftware },
     ]
   }
 ];
@@ -58,36 +62,52 @@ const skillCategories = [
 export function V2Skills() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-100px" }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full max-w-6xl mx-auto py-12 px-4"
+      className="w-full max-w-5xl mx-auto py-12 px-4"
     >
-      <h3 className="font-heading text-4xl md:text-5xl text-white font-bold mb-16 text-center">
-        Skills
-        <div className="w-24 h-1 bg-[#87BCDE] mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(135,188,222,0.8)]"></div>
-      </h3>
+      {/* Persona Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold mb-2">
+          <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black" />
+          SYSTEM INVENTORY // TECHNICAL CAPABILITIES
+        </div>
+        <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black">
+          SKILLS & STACK
+        </h3>
+        <div className="w-20 h-1.5 bg-[#FFEE00] border border-black mx-auto mt-3" />
+      </div>
       
-      <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col space-y-4 w-full max-w-4xl mx-auto">
-        {skillCategories.map((category, idx) => (
-          <div key={idx} className="flex flex-col">
-            <h4 className="text-lg md:text-xl font-heading font-bold text-white mb-2 border-b border-white/10 pb-2">
-              {category.title}
-            </h4>
+      {/* Main Container Card */}
+      <div className="bg-[#FFFFF8] border-2 border-black shadow-[6px_6px_0px_#000] p-6 md:p-10 relative overflow-hidden flex flex-col gap-8">
+        {/* Top Accent Stripe */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-[#FFEE00] border-b-2 border-black" />
+
+        {skillCategories.map((category) => (
+          <div key={category.title} className="flex flex-col">
+            <div className="flex items-center justify-between pb-2 mb-4 border-b border-black/20">
+              <h4 className="font-mono text-xs md:text-sm font-black text-black tracking-wider uppercase flex items-center gap-2">
+                <span className="w-2 h-2 bg-[#FFEE00] border border-black" />
+                <span>{category.title}</span>
+              </h4>
+              <span className="font-mono text-[10px] text-neutral-500 font-bold">
+                [{category.code}]
+              </span>
+            </div>
             
-            <div className="flex flex-wrap gap-6 md:gap-8 justify-center md:justify-start">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {category.skills.map((skill) => (
                 <div 
                   key={skill.name} 
-                  className="flex flex-col items-center justify-center group cursor-pointer w-[70px]"
+                  className="flex items-center gap-3 p-3 bg-[#FAF7E8] border border-black hover:bg-[#FFEE00] hover:shadow-[3px_3px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
                 >
                   <skill.Icon 
-                    size={35} 
-                    color={skill.color || 'white'} 
-                    className="mb-3 opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 drop-shadow-lg"
+                    size={22} 
+                    className="text-black group-hover:scale-110 transition-transform shrink-0"
                   />
-                  <span className="font-sans text-[11px] md:text-xs font-semibold text-zinc-400 group-hover:text-white transition-colors text-center leading-tight">
+                  <span className="font-mono text-xs font-bold text-black uppercase tracking-tight truncate">
                     {skill.name}
                   </span>
                 </div>
@@ -95,6 +115,12 @@ export function V2Skills() {
             </div>
           </div>
         ))}
+
+        {/* Bottom Status bar */}
+        <div className="pt-4 border-t border-black/15 flex flex-wrap items-center justify-between font-mono text-[10px] text-neutral-600 gap-2">
+          <span>21 NODES ACTIVE &bull; PRODUCTION VERIFIED</span>
+          <span>SYSTEM BENCHMARK: 99.4% OPTIMIZED</span>
+        </div>
       </div>
     </motion.div>
   );
