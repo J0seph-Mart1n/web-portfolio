@@ -401,27 +401,40 @@ void main(){
 
   // 6. Solar Limb Darkening & Rim
   float vdn = max(dot(V, N), 0.0);
-  float limbDarkening = pow(vdn, 0.45);
+  float limbDarkening = pow(vdn, 0.55);
   float rim = 1.0 - smoothstep(0.0, 0.08, vdn);
 
-  // Palette: Persona warm cream, neon yellow faculae, ink black sunspots & granulation lines
-  vec3 sunCream = vec3(1.0, 0.988, 0.94);
-  vec3 neonYellow = vec3(1.0, 0.933, 0.0);
+  // Palette: Vibrant solar yellow, fiery orange photosphere, deep amber limb, and ink black sunspots/rim
+  vec3 deepOrange = vec3(0.96, 0.34, 0.02);   // Deep fiery solar orange (#F55705)
+  vec3 warmOrange = vec3(1.0, 0.58, 0.06);    // Golden-orange photosphere (#FF940F)
+  vec3 solarYellow = vec3(1.0, 0.88, 0.08);   // Brilliant sun yellow (#FFE014)
+  vec3 flareYellow = vec3(1.0, 0.97, 0.45);   // Hot active flare yellow-gold
+  vec3 burntAmber = vec3(0.55, 0.14, 0.01);   // Dark burnt orange for convection cell boundaries
   vec3 inkBlack = vec3(0.08, 0.08, 0.08);
 
-  vec3 col = sunCream;
+  // Map SDO photosphere luminance across orange -> golden-orange -> bright yellow
   float texContrast = smoothstep(0.12, 0.88, sunLum);
-  col = mix(col * 0.88, col, texContrast);
-  col = mix(col * 0.92, col, limbDarkening);
-  col = mix(col, neonYellow, activeFaculae * 0.9);
+  vec3 col = mix(deepOrange, warmOrange, smoothstep(0.0, 0.55, texContrast));
+  col = mix(col, solarYellow, smoothstep(0.45, 1.0, texContrast));
+
+  // Limb darkening shifts outer edges toward rich fiery orange
+  col = mix(deepOrange * 0.88, col, limbDarkening);
+
+  // Highlight active magnetic faculae / flare zones in blazing yellow
+  col = mix(col, flareYellow, activeFaculae * 0.92);
+
+  // Convection cell boundaries in rich burnt amber/orange so the Sun stays vibrant from afar
+  col = mix(col, burntAmber, plasmaGranulation * 0.65);
+
+  // Sunspot umbra in deep ink black
   col = mix(col, inkBlack, spotUmbra * 0.95);
 
-  float lines = max(rim * 0.92, spotPenumbra * 0.9);
-  lines = max(lines, plasmaGranulation * 0.55);
-  lines = max(lines, heliogrid);
+  // Crisp ink lines for outer silhouette rim, sunspot penumbra, and subtle heliographic grid
+  float lines = max(rim * 0.92, spotPenumbra * 0.85);
+  lines = max(lines, heliogrid * 0.65);
 
   col = mix(col, inkBlack, clamp(lines, 0.0, 1.0));
-  col = mix(col, neonYellow, equator * 0.85);
+  col = mix(col, flareYellow, equator * 0.85);
 
   gl_FragColor = vec4(col, 1.0);
 }`;
@@ -960,10 +973,11 @@ export function createSolarStage(opts: { pixelRatio: number; lowPower: boolean }
       const a = (i / 96) * Math.PI * 2;
       pts.push(new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r));
     }
+    const ringColors = [0xff6b00, 0xffee00, 0xff9500, 0xffee00, 0x222222];
     const lineMat = new THREE.LineBasicMaterial({
-      color: idx === 1 || idx === 3 ? 0xffee00 : 0x222222,
+      color: ringColors[idx] ?? 0x222222,
       transparent: true,
-      opacity: idx === 1 ? 0.95 : 0.5,
+      opacity: idx <= 2 ? 0.9 : 0.55,
       blending: THREE.NormalBlending,
     });
     const circle = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat);
@@ -973,7 +987,8 @@ export function createSolarStage(opts: { pixelRatio: number; lowPower: boolean }
 
   // Animated Solar Flare Magnetic Loops
   const prominenceLoops: THREE.Line[] = [];
-  const loopMat = new THREE.LineBasicMaterial({ color: 0xffee00, transparent: true, opacity: 0.85 });
+  const loopMatYellow = new THREE.LineBasicMaterial({ color: 0xffee00, transparent: true, opacity: 0.9 });
+  const loopMatOrange = new THREE.LineBasicMaterial({ color: 0xff6b00, transparent: true, opacity: 0.9 });
   for (let i = 0; i < 10; i++) {
     const angle = (i / 10) * Math.PI * 2;
     const pts: THREE.Vector3[] = [];
@@ -987,7 +1002,10 @@ export function createSolarStage(opts: { pixelRatio: number; lowPower: boolean }
         Math.sin(angle + (u - Math.PI / 2) * 0.16) * rad
       ));
     }
-    const loopLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), loopMat);
+    const loopLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(pts),
+      i % 2 === 0 ? loopMatOrange : loopMatYellow
+    );
     sunGroup.add(loopLine);
     prominenceLoops.push(loopLine);
   }
