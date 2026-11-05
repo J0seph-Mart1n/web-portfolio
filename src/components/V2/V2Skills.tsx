@@ -66,14 +66,10 @@ export function V2Skills() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-100px" }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full max-w-5xl mx-auto py-12 px-4"
+      className="w-full max-w-3xl mx-auto py-12 px-4"
     >
       {/* Persona Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold mb-2">
-          <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black" />
-          SYSTEM INVENTORY // TECHNICAL CAPABILITIES
-        </div>
         <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black">
           SKILLS & STACK
         </h3>
@@ -81,13 +77,13 @@ export function V2Skills() {
       </div>
       
       {/* Main Container Card */}
-      <div className="bg-[#FFFFF8] border-2 border-black shadow-[6px_6px_0px_#000] p-6 md:p-10 relative overflow-hidden flex flex-col gap-8">
+      <div className="bg-[#FFFFF8] border-2 border-black shadow-[6px_6px_0px_#000] p-5 md:p-8 relative overflow-hidden flex flex-col gap-6">
         {/* Top Accent Stripe */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-[#FFEE00] border-b-2 border-black" />
 
         {skillCategories.map((category) => (
           <div key={category.title} className="flex flex-col">
-            <div className="flex items-center justify-between pb-2 mb-4 border-b border-black/20">
+            <div className="flex items-center justify-between pb-2 mb-3 border-b border-black/20">
               <h4 className="font-mono text-xs md:text-sm font-black text-black tracking-wider uppercase flex items-center gap-2">
                 <span className="w-2 h-2 bg-[#FFEE00] border border-black" />
                 <span>{category.title}</span>
@@ -97,30 +93,23 @@ export function V2Skills() {
               </span>
             </div>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            <div className="flex flex-wrap gap-3">
               {category.skills.map((skill) => (
                 <div 
-                  key={skill.name} 
-                  className="flex items-center gap-3 p-3 bg-[#FAF7E8] border border-black hover:bg-[#FFEE00] hover:shadow-[3px_3px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
+                  key={skill.name}
+                  title={skill.name}
+                  aria-label={skill.name}
+                  className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center bg-[#FAF7E8] border border-black hover:bg-[#FFEE00] hover:shadow-[3px_3px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
                 >
                   <skill.Icon 
                     size={22} 
                     className="text-black group-hover:scale-110 transition-transform shrink-0"
                   />
-                  <span className="font-mono text-xs font-bold text-black uppercase tracking-tight truncate">
-                    {skill.name}
-                  </span>
                 </div>
               ))}
             </div>
           </div>
         ))}
-
-        {/* Bottom Status bar */}
-        <div className="pt-4 border-t border-black/15 flex flex-wrap items-center justify-between font-mono text-[10px] text-neutral-600 gap-2">
-          <span>21 NODES ACTIVE &bull; PRODUCTION VERIFIED</span>
-          <span>SYSTEM BENCHMARK: 99.4% OPTIMIZED</span>
-        </div>
       </div>
     </motion.div>
   );

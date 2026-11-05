@@ -6,10 +6,6 @@ export function V2Experience() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
 
-  const activeLineWidth = isAutoPlaying 
-    ? (activeIndex === 2 ? 100 : (activeIndex / 2) * 100 + (progress / 100) * 50) 
-    : (activeIndex / 2) * 100;
-
   const data = [
     {
       date: "2021 - 2025",
@@ -17,36 +13,49 @@ export function V2Experience() {
       role: "B.E. in Computer Engineering",
       badge: "ACADEMIC // CIPHERS CLUB",
       description: [
-        "Pursued a comprehensive degree with a strong focus on Backend Systems, Distributed Architecture, Data Science, and Machine Learning.",
-        "Co-headed the CIPHERS programming club, directing competitive programming seminars, hackathons, and software engineering workshops.",
-        "Built diverse production applications ranging from Python/Selenium automation and predictive ML models to full-stack web applications using Flask and modern frontend runtimes."
+        "Pursued a comprehensive degree in Computer Engineering, specializing in Backend Systems, Machine Learning, and Automation.",
+        "Served as Co-Head of Programming at the CIPHERS Club, directing competitive programming seminars, hackathons, and software engineering workshops.",
+        "Built diverse production applications ranging from Python/Selenium automation and predictive ML models to full-stack web applications."
       ]
     },
     {
-      date: "Mar 2025",
-      title: "Cognizant Intern",
-      role: "Automation QA Intern",
+      date: "Mar 2025 - Aug 2025",
+      title: "Cognizant",
+      role: "Software Engineering Intern",
       badge: "ENTERPRISE // QUALITY ASSURANCE",
       description: [
-        "Mastered the enterprise Automation Testing Lifecycle, utilizing Java, Selenium WebDriver, log4j, Cucumber BDD, and Gherkin for robust test execution.",
-        "Led a QA team to automate end-to-end regression testing for a government District Portal, verifying event ticketing and dynamic seat reservations.",
-        "Gained deep experience in agile workflows, continuous integration pipelines, git-based collaboration, and team task distribution.",
-        "Demonstrated technical leadership, conflict resolution, technical presentations, and rapid defect resolution in fast-paced sprints."
+        "Built behavior-driven test frameworks using Java, Selenium, Cucumber BDD, and Gherkin with Log4j logging for automated test verification.",
+        "Spearheaded a 5-member QA team to automate a civic District Portal, testing complex workflows including event booking and dynamic seat reservation.",
+        "Managed Git branching, peer code reviews, and test case distribution, accelerating sprint delivery turnaround by 25%."
       ]
     },
     {
-      date: "Aug 2025 - Present",
-      title: "Cognizant PAT",
+      date: "Aug 2025 - Aug 2026",
+      title: "Cognizant",
       role: "Programmer Analyst Trainee",
       badge: "PRODUCTION // AUTOMATION PIPELINES",
       description: [
-        "Automated comprehensive test suites across enterprise applications using Python, Selenium, and Robot Framework based on functional requirement specifications.",
-        "Executed test scripts locally and orchestrated headless CI runs via Jenkins, publishing test analytics and test artifacts to Jira and qTest.",
-        "Collaborated directly with cross-functional distributed teams, actively participating in client status meetings, sprint retrospectives, and architecture reviews.",
-        "Consistently met mission-critical delivery milestones with zero production regressions through rigorous automated quality gates."
+        "Automated 120+ end-to-end regression test cases across cross-system workflows using Python, Selenium, and Robot Framework.",
+        "Orchestrated automated test jobs in Jenkins and locally, streaming test results, defect metrics, and logs to Jira and qTest.",
+        "Participated in client status meetings and daily standups, ensuring test scripting progress met strict quality milestones."
+      ]
+    },
+    {
+      date: "Aug 2026 - Present",
+      title: "Cognizant",
+      role: "Programmer Analyst",
+      badge: "ARCHITECTURE // QUALITY ENGINEERING",
+      description: [
+        "Lead test automation architecture and CI/CD quality pipelines in Jenkins, cutting regression cycle time and defect escapes by 35%.",
+        "Drive quality engineering across Agile releases, conducting root-cause analyses and collaborating with engineering teams to unblock production deliverables."
       ]
     }
   ];
+
+  const totalSegments = data.length - 1;
+  const activeLineWidth = isAutoPlaying 
+    ? (activeIndex === totalSegments ? 100 : (activeIndex / totalSegments) * 100 + (progress / 100) * (100 / totalSegments)) 
+    : (activeIndex / totalSegments) * 100;
 
   // Auto-play timer logic
   useEffect(() => {
@@ -86,12 +95,8 @@ export function V2Experience() {
     >
       {/* Persona Section Header */}
       <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold mb-2">
-          <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black" />
-          CHRONOLOGICAL // LOG
-        </div>
         <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black">
-          EXPERIENCE GRAPH
+          EXPERIENCE
         </h3>
         <div className="w-20 h-1.5 bg-[#FFEE00] border border-black mx-auto mt-3" />
       </div>
@@ -124,10 +129,10 @@ export function V2Experience() {
               <div 
                 key={index} 
                 onClick={() => handleNodeClick(index)}
-                className="flex flex-col items-center cursor-pointer group w-1/3"
+                className="flex flex-col items-center cursor-pointer group flex-1 basis-0 min-w-0 px-0.5 sm:px-2"
               >
                 {/* Year Stamp */}
-                <div className={`h-10 flex items-end justify-center pb-2 text-xs md:text-sm font-mono font-bold tracking-wider transition-colors duration-300 ${
+                <div className={`h-12 shrink-0 flex items-end justify-center pb-2 text-[10px] sm:text-xs md:text-sm leading-tight font-mono font-bold tracking-tight sm:tracking-wider transition-colors duration-300 ${
                   isActive ? 'text-black' : 'text-neutral-500 group-hover:text-black'
                 }`}>
                   <span className="text-center">{item.date}</span>
@@ -147,7 +152,7 @@ export function V2Experience() {
                 </motion.div>
 
                 {/* Organization Label */}
-                <div className={`mt-3 text-center font-mono text-xs md:text-sm uppercase tracking-wide transition-colors duration-300 px-2 ${
+                <div className={`mt-3 w-full text-center font-mono text-[10px] sm:text-xs md:text-sm leading-tight uppercase tracking-tight sm:tracking-wide break-words transition-colors duration-300 ${
                   isActive ? 'text-black font-extrabold' : 'text-neutral-600 group-hover:text-black'
                 }`}>
                   {item.title}
@@ -205,7 +210,6 @@ export function V2Experience() {
         {/* Card Footer Status */}
         <div className="w-full py-2 px-6 bg-neutral-100 border-t border-black flex justify-between items-center font-mono text-[10px] text-neutral-600">
           <span>NODE {activeIndex + 1} OF {data.length}</span>
-          <span>RECORD ID: COG-{2021 + activeIndex * 2}</span>
         </div>
       </div>
     </motion.div>

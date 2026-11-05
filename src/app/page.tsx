@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from "motion/react";
 
@@ -50,47 +50,69 @@ export default function V2Page() {
     return () => clearInterval(interval);
   }, [appState]);
 
+  const isScrollingProgrammatically = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Track which section is currently in the viewport
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    SECTIONS.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
-          }
-        },
-        { rootMargin: "-35% 0px -35% 0px", threshold: 0 }
-      );
-
-      observer.observe(el);
-      observers.push(observer);
-    });
+    let ticking = false;
 
     const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
-        setActiveSection("socials");
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (!isScrollingProgrammatically.current) {
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            const scrollHeight = document.documentElement.scrollHeight;
+
+            // If user scrolled to the very bottom, activate socials
+            if (viewportHeight + scrollY >= scrollHeight - 60) {
+              setActiveSection("socials");
+              ticking = false;
+              return;
+            }
+
+            const focusY = viewportHeight * 0.4;
+
+            for (let i = SECTIONS.length - 1; i >= 0; i--) {
+              const section = SECTIONS[i];
+              const el = document.getElementById(section.id);
+              if (!el) continue;
+
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= focusY && rect.bottom >= focusY) {
+                setActiveSection(section.id);
+                break;
+              }
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
-      observers.forEach((o) => o.disconnect());
       window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
+      // Immediately highlight the clicked section in the navigation
+      setActiveSection(id);
+      isScrollingProgrammatically.current = true;
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+
       const targetPosition = el.getBoundingClientRect().top + window.scrollY;
       const startPosition = window.scrollY;
       const distance = targetPosition - startPosition;
-      const duration = 1100;
+      const duration = 1000;
       let start: number | null = null;
 
       const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
@@ -111,6 +133,10 @@ export default function V2Page() {
           requestAnimationFrame(animation);
         } else {
           window.scrollTo(0, targetPosition);
+          setActiveSection(id);
+          scrollTimeoutRef.current = setTimeout(() => {
+            isScrollingProgrammatically.current = false;
+          }, 150);
         }
       };
 
@@ -163,9 +189,7 @@ export default function V2Page() {
       {/* TOP LEFT PERSONA-STYLE BRAND BADGE */}
       <div className="fixed top-5 left-5 z-40 hidden sm:flex items-center gap-3 bg-[#FFFFF8] border-2 border-black shadow-[3px_3px_0px_#000] px-3.5 py-1.5 font-mono text-xs">
         <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black" />
-        <span className="font-extrabold uppercase tracking-widest text-black">JOSEPH.OS</span>
-        <span className="text-neutral-400">|</span>
-        <span className="text-neutral-600 font-medium">SYS.ONLINE</span>
+        <span className="font-extrabold uppercase tracking-widest text-black">JOSEPH MARTIN</span>
       </div>
 
       {/* PERSONA FIXED SIDEBAR DOCK NAVIGATION (DESKTOP) */}
@@ -208,123 +232,45 @@ export default function V2Page() {
       <div className="relative z-10 flex flex-col w-full">
         
         {/* HERO / INTRO SECTION (Modeled directly on 1_Dashboard.png) */}
-        <section id="intro" className="min-h-[100vh] flex flex-col items-center justify-center px-4 py-20">
+        <section id="intro" className="relative min-h-screen flex items-center justify-center px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-full max-w-4xl flex flex-col items-center"
+            className="w-full max-w-4xl"
           >
             {/* Main Brutalist Banner Card */}
-            <div className="w-full bg-[#FFFFF8] border-2 border-black shadow-[8px_8px_0px_#000] relative overflow-hidden p-6 md:p-12 mb-8">
+            <div className="w-full bg-[#FFFFF8] border-2 border-black shadow-[8px_8px_0px_#000] relative overflow-hidden p-6 md:p-12">
               {/* Top Yellow Accent Bar */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-[#FFEE00] border-b-2 border-black" />
               
               <div className="flex items-center gap-2 mb-4 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold">
                 <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black inline-block" />
-                SYSTEM ACTIVE // VECTOR SPACE MAPPED
+                SYSTEM ACTIVE
               </div>
 
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-black mb-4 leading-none">
-                YOUR DIGITAL VISION, QUANTIFIED.
+                TURN YOUR DIGITAL VISION INTO REALITY.
               </h1>
 
               <div className="w-full h-px bg-black my-6" />
 
-              <div className="border-l-4 border-[#FFEE00] pl-4 mb-8">
+              <div className="border-l-4 border-[#FFEE00] pl-4">
                 <p className="font-sans text-sm md:text-base text-neutral-800 leading-relaxed max-w-2xl font-medium">
                   Hi, I'm <strong className="font-bold text-black">Joseph Martin</strong>. I architect high-performance web applications, distributed systems, and private knowledge-graph AI systems powered by local LLMs and modern vector stacks.
                 </p>
               </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <button
-                  onClick={() => scrollToSection('experience')}
-                  className="px-6 py-3 bg-[#FFFFF8] hover:bg-[#FFEE00] text-black font-mono font-bold text-xs md:text-sm uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-[5px_5px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>🗂 VIEW PROTOCOL</span>
-                  <span>&darr;</span>
-                </button>
-
-                <button
-                  onClick={() => scrollToSection('projects')}
-                  className="px-6 py-3 bg-black hover:bg-neutral-800 text-white font-mono font-bold text-xs md:text-sm uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-[5px_5px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>EXPLORE CODE</span>
-                  <span>&rarr;</span>
-                </button>
-              </div>
             </div>
-
-            {/* 3 Sub-Cards (Directly mirroring 1_Dashboard.png bottom cards) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-              <div 
-                onClick={() => scrollToSection('experience')}
-                className="bg-[#FFFFF8] border-2 border-black shadow-[4px_4px_0px_#000] p-6 flex flex-col justify-between hover:shadow-[6px_6px_0px_#000] hover:-translate-y-1 transition-all cursor-pointer group"
-              >
-                <div>
-                  <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-black mb-3">
-                    <span>☌</span>
-                    <span>EXPERIENCE GRAPH</span>
-                  </div>
-                  <p className="text-xs text-neutral-600 leading-relaxed mb-6 font-medium">
-                    Explore career milestones at Cognizant, automation testing frameworks, and university leadership.
-                  </p>
-                </div>
-                <div className="font-mono text-xs font-bold text-black group-hover:text-neutral-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>ANALYZE</span>
-                  <span>&rarr;</span>
-                </div>
-              </div>
-
-              <div 
-                onClick={() => scrollToSection('skills')}
-                className="bg-[#FFFFF8] border-2 border-black shadow-[4px_4px_0px_#000] p-6 flex flex-col justify-between hover:shadow-[6px_6px_0px_#000] hover:-translate-y-1 transition-all cursor-pointer group"
-              >
-                <div>
-                  <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-black mb-3">
-                    <span>📋</span>
-                    <span>TECH INVENTORY</span>
-                  </div>
-                  <p className="text-xs text-neutral-600 leading-relaxed mb-6 font-medium">
-                    20+ compiled technical proficiencies spanning React, Node, Python, Neo4j, Docker, and automation.
-                  </p>
-                </div>
-                <div className="font-mono text-xs font-bold text-black group-hover:text-neutral-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>INSPECT STACK</span>
-                  <span>&rarr;</span>
-                </div>
-              </div>
-
-              <div 
-                onClick={() => scrollToSection('projects')}
-                className="bg-[#FFFFF8] border-2 border-black shadow-[4px_4px_0px_#000] p-6 flex flex-col justify-between hover:shadow-[6px_6px_0px_#000] hover:-translate-y-1 transition-all cursor-pointer group"
-              >
-                <div>
-                  <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-black mb-3">
-                    <span>💬</span>
-                    <span>DEPLOYED PROTOCOLS</span>
-                  </div>
-                  <p className="text-xs text-neutral-600 leading-relaxed mb-6 font-medium">
-                    Featured systems including Persona.ai, Auction Manager, and Vitality Health Tracker.
-                  </p>
-                </div>
-                <div className="font-mono text-xs font-bold text-black group-hover:text-neutral-900 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>BROWSE PROJECTS</span>
-                  <span>&rarr;</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Scroll Indicator */}
-            <button 
-              onClick={() => scrollToSection('experience')}
-              className="mt-12 flex flex-col items-center gap-1 font-mono text-xs font-bold text-neutral-700 hover:text-black uppercase tracking-widest cursor-pointer group"
-            >
-              <span>SCROLL TO EXPLORE ARCHITECTURE</span>
-              <span className="text-base group-hover:translate-y-1 transition-transform">&darr;</span>
-            </button>
           </motion.div>
+
+          {/* Scroll Indicator */}
+          <button 
+            onClick={() => scrollToSection('experience')}
+            className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 font-mono text-xs font-bold text-neutral-700 hover:text-black uppercase tracking-widest cursor-pointer group z-10"
+          >
+            <span>SCROLL TO EXPLORE</span>
+            <span className="text-base group-hover:translate-y-1 transition-transform">&darr;</span>
+          </button>
         </section>
 
         {/* EXPERIENCE SECTION */}
@@ -338,12 +284,12 @@ export default function V2Page() {
         </section>
 
         {/* PROJECTS SECTION */}
-        <section id="projects" className="min-h-[100vh] flex flex-col items-center justify-center py-20 px-4 md:px-8 relative">
+        <section id="projects" className="min-h-[100vh] flex flex-col items-center justify-center py-10 md:py-12 px-4 md:px-8 relative mb-24 md:mb-36">
           <V2Projects />
         </section>
 
         {/* SOCIALS SECTION */}
-        <section id="socials" className="w-full mt-auto min-h-[90vh] flex flex-col justify-end">
+        <section id="socials" className="w-full mt-auto">
           <V2Socials />
         </section>
 
