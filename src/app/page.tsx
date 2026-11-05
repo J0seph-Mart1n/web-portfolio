@@ -8,6 +8,7 @@ import { V2Experience } from '@/components/V2/V2Experience';
 import { V2Skills } from '@/components/V2/V2Skills';
 import { V2Projects } from '@/components/V2/V2Projects';
 import { V2Socials } from '@/components/V2/V2Socials';
+import { V2GitHubContributions } from '@/components/V2/V2GitHubContributions';
 import { V2LoadingScreen } from '@/components/V2/V2LoadingScreen';
 
 const ThreeBackground = dynamic(() => import('@/components/scene/ThreeBackground'), {
@@ -232,7 +233,7 @@ export default function V2Page() {
       <div className="relative z-10 flex flex-col w-full">
         
         {/* HERO / INTRO SECTION (Modeled directly on 1_Dashboard.png) */}
-        <section id="intro" className="relative min-h-screen flex items-center justify-center px-4 md:px-8">
+        <section id="intro" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -240,26 +241,28 @@ export default function V2Page() {
             className="w-full max-w-4xl"
           >
             {/* Main Brutalist Banner Card */}
-            <div className="w-full bg-[#FFFFF8] border-2 border-black shadow-[8px_8px_0px_#000] relative overflow-hidden p-6 md:p-12">
+            <div className="w-full bg-[#FFFFF8] border-2 border-black shadow-[8px_8px_0px_#000] relative overflow-hidden p-6 md:p-10">
               {/* Top Yellow Accent Bar */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-[#FFEE00] border-b-2 border-black" />
               
-              <div className="flex items-center gap-2 mb-4 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold">
+              <div className="flex items-center gap-2 mb-3 font-mono text-xs uppercase tracking-widest text-neutral-600 font-bold">
                 <span className="w-2.5 h-2.5 bg-[#FFEE00] border border-black inline-block" />
                 SYSTEM ACTIVE
               </div>
 
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-black mb-4 leading-none">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-black mb-3 leading-none">
                 TURN YOUR DIGITAL VISION INTO REALITY.
               </h1>
 
-              <div className="w-full h-px bg-black my-6" />
+              <div className="w-full h-px bg-black my-4" />
 
-              <div className="border-l-4 border-[#FFEE00] pl-4">
-                <p className="font-sans text-sm md:text-base text-neutral-800 leading-relaxed max-w-2xl font-medium">
+              <div className="border-l-4 border-[#FFEE00] pl-4 mb-6">
+                <p className="font-sans text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed max-w-2xl font-medium">
                   Hi, I'm <strong className="font-bold text-black">Joseph Martin</strong>. I architect high-performance web applications, distributed systems, and private knowledge-graph AI systems powered by local LLMs and modern vector stacks.
                 </p>
               </div>
+
+              <V2GitHubContributions />
             </div>
           </motion.div>
 
