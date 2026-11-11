@@ -4,6 +4,7 @@ import { projectsData } from '@/data/projects';
 import { CaseStudyLayout } from '@/components/CaseStudyLayout';
 
 // Import specific project content components
+import { Selah } from '@/components/case-studies/Selah';
 import { PersonaAI } from '@/components/case-studies/PersonaAI';
 import { AuctionManager } from '@/components/case-studies/AuctionManager';
 import { Vitality } from '@/components/case-studies/Vitality';
@@ -20,6 +21,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   // Map slugs to their specific content components
   const ContentComponent = (() => {
     switch (slug) {
+      case 'selah':
+        return <Selah project={project} />;
       case 'persona-ai':
         return <PersonaAI project={project} />;
       case 'auction-manager':

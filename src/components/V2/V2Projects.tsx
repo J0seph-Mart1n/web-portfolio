@@ -13,7 +13,8 @@ export function V2Projects() {
       badge: 'FULL-STACK // WEBGL & 3D',
       description: 'Architected a full-stack festival platform featuring a 4-step registration wizard with dynamic roster validation, tiered pricing logic, and database backed by Cloud Firestore, paired with a secure admin analytics dashboard and an interactive WebGL 3D cloth physics simulation.',
       tech: ['Next.js 16', 'React 19', 'TypeScript', 'Cloud Firestore', 'Tailwind CSS', 'WebGL', 'GSAP'],
-      github: 'https://github.com/J0seph-Mart1n/SELAH_2026',
+      github: 'https://github.com/J0seph-Mart1n/SELAH',
+      slug: 'selah',
     },
     {
       title: 'Vitality',

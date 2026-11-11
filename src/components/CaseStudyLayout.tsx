@@ -13,12 +13,15 @@ import {
   User, 
   FolderGit2,
   Home,
-  Terminal
+  Terminal,
+  Sparkles,
+  ExternalLink
 } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { ProjectData, projectsData } from '@/data/projects';
 
 const PROJECT_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  'selah': Sparkles,
   'persona-ai': Cpu,
   'auction-manager': Layers,
   'vitality': Activity,
@@ -189,6 +192,18 @@ export function CaseStudyLayout({
             <span>Back to Portfolio</span>
           </Link>
 
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-3 py-2 font-mono text-xs font-bold text-neutral-800 hover:text-black hover:bg-[#FFEE00]/50 border border-transparent hover:border-black transition-all uppercase tracking-wider"
+            >
+              <ExternalLink size={15} />
+              <span>Live Website</span>
+            </a>
+          )}
+
           <a
             href={project.github}
             target="_blank"
@@ -277,11 +292,27 @@ export function CaseStudyLayout({
 
                 {/* Primary Action Buttons */}
                 <div className="flex flex-wrap gap-4 pt-2">
+                  {project.liveUrl && (
+                    <a 
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#FFEE00] hover:bg-[#FAFF00] text-black font-mono font-bold text-xs md:text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
+                    >
+                      <ExternalLink size={18} />
+                      <span>LIVE WEBSITE</span>
+                      <span>&rarr;</span>
+                    </a>
+                  )}
                   <a 
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#FFEE00] hover:bg-[#FAFF00] text-black font-mono font-bold text-xs md:text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
+                    className={`inline-flex items-center gap-2.5 px-6 py-3 text-black font-mono font-bold text-xs md:text-sm uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all ${
+                      project.liveUrl
+                        ? 'bg-[#FFFFF8] hover:bg-[#FFEE00]'
+                        : 'bg-[#FFEE00] hover:bg-[#FAFF00]'
+                    }`}
                   >
                     <Code2 size={18} />
                     <span>VIEW SOURCE CODE</span>
